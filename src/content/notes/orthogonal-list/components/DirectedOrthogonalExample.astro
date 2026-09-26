@@ -1,0 +1,89 @@
+---
+---
+
+<figure class="my-8" aria-labelledby="directed-example-caption">
+  <div class="overflow-x-auto rounded-2xl border border-[var(--line)] bg-white p-4 sm:p-6">
+    <svg class="mx-auto h-auto min-w-[1320px] max-w-full" viewBox="0 0 1480 860" role="img" aria-labelledby="directed-example-title directed-example-description" xmlns="http://www.w3.org/2000/svg">
+      <title id="directed-example-title">十字链表结构体结点组成的有向图</title>
+      <desc id="directed-example-description">四个顶点结构体卡片和三条完整弧结构体卡片组成有向图，弧为0到1权重8、1到2权重4、3到1权重6。</desc>
+      <defs><marker id="directed-example-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#176b54" /></marker></defs>
+      <text x="24" y="35" fill="#17211e" font-size="20" font-weight="700">十字链表：顶点结构体与弧结构体</text>
+      <text x="24" y="61" fill="#64736c" font-size="13">每个大卡片代表一个结构体结点；连线依次从弧尾顶点经过弧结点指向弧头顶点</text>
+      <!-- 0 → E01 → 1 -->
+      <path d="M295 170H375" fill="none" stroke="#176b54" stroke-width="2.5" />
+      <path d="M775 170H1160" fill="none" stroke="#176b54" stroke-width="2.5" marker-end="url(#directed-example-arrow)" />
+      <!-- 1 → E12 → 2 -->
+      <path d="M1300 245V410H760" fill="none" stroke="#176b54" stroke-width="2.5" />
+      <path d="M960 530V575H1300V625" fill="none" stroke="#176b54" stroke-width="2.5" marker-end="url(#directed-example-arrow)" />
+      <!-- 3 → E31 → 1 -->
+      <path d="M295 700H375" fill="none" stroke="#176b54" stroke-width="2.5" />
+      <path d="M775 700H1455V170H1435" fill="none" stroke="#176b54" stroke-width="2.5" marker-end="url(#directed-example-arrow)" />
+
+      <!-- Vertex nodes: data, firstin, firstout -->
+      <g font-family="ui-monospace,Consolas,monospace">
+        <g transform="translate(20 95)">
+          <rect width="275" height="150" rx="12" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" /><text x="16" y="25" fill="#176b54" font-size="13" font-weight="700">顶点结点 0</text>
+          <rect x="12" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="98" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="184" y="38" width="79" height="96" rx="7" fill="#e9f4ed" stroke="#9bc9ad" />
+          <text x="51" y="65" text-anchor="middle" fill="#64736c" font-size="11">data</text><text x="51" y="96" text-anchor="middle" fill="#17211e" font-size="17" font-weight="700">0</text>
+          <text x="137" y="65" text-anchor="middle" fill="#64736c" font-size="10">firstin</text><text x="137" y="96" text-anchor="middle" fill="#64736c" font-size="15">∅</text>
+          <text x="223" y="65" text-anchor="middle" fill="#176b54" font-size="10">firstout</text><text x="223" y="96" text-anchor="middle" fill="#176b54" font-size="14" font-weight="700">E01</text>
+        </g>
+        <g transform="translate(1160 95)">
+          <rect width="275" height="150" rx="12" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" /><text x="16" y="25" fill="#176b54" font-size="13" font-weight="700">顶点结点 1</text>
+          <rect x="12" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="98" y="38" width="78" height="96" rx="7" fill="#e9f4ed" stroke="#9bc9ad" /><rect x="184" y="38" width="79" height="96" rx="7" fill="#e9f4ed" stroke="#9bc9ad" />
+          <text x="51" y="65" text-anchor="middle" fill="#64736c" font-size="11">data</text><text x="51" y="96" text-anchor="middle" fill="#17211e" font-size="17" font-weight="700">1</text>
+          <text x="137" y="65" text-anchor="middle" fill="#176b54" font-size="10">firstin</text><text x="137" y="96" text-anchor="middle" fill="#176b54" font-size="14" font-weight="700">E01</text>
+          <text x="223" y="65" text-anchor="middle" fill="#176b54" font-size="10">firstout</text><text x="223" y="96" text-anchor="middle" fill="#176b54" font-size="14" font-weight="700">E12</text>
+        </g>
+        <g transform="translate(20 625)">
+          <rect width="275" height="150" rx="12" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" /><text x="16" y="25" fill="#176b54" font-size="13" font-weight="700">顶点结点 3</text>
+          <rect x="12" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="98" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="184" y="38" width="79" height="96" rx="7" fill="#e9f4ed" stroke="#9bc9ad" />
+          <text x="51" y="65" text-anchor="middle" fill="#64736c" font-size="11">data</text><text x="51" y="96" text-anchor="middle" fill="#17211e" font-size="17" font-weight="700">3</text>
+          <text x="137" y="65" text-anchor="middle" fill="#64736c" font-size="10">firstin</text><text x="137" y="96" text-anchor="middle" fill="#64736c" font-size="15">∅</text>
+          <text x="223" y="65" text-anchor="middle" fill="#176b54" font-size="10">firstout</text><text x="223" y="96" text-anchor="middle" fill="#176b54" font-size="14" font-weight="700">E31</text>
+        </g>
+        <g transform="translate(1160 625)">
+          <rect width="275" height="150" rx="12" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" /><text x="16" y="25" fill="#176b54" font-size="13" font-weight="700">顶点结点 2</text>
+          <rect x="12" y="38" width="78" height="96" rx="7" fill="#fff" stroke="#dce3dc" /><rect x="98" y="38" width="78" height="96" rx="7" fill="#e9f4ed" stroke="#9bc9ad" /><rect x="184" y="38" width="79" height="96" rx="7" fill="#fff" stroke="#dce3dc" />
+          <text x="51" y="65" text-anchor="middle" fill="#64736c" font-size="11">data</text><text x="51" y="96" text-anchor="middle" fill="#17211e" font-size="17" font-weight="700">2</text>
+          <text x="137" y="65" text-anchor="middle" fill="#176b54" font-size="10">firstin</text><text x="137" y="96" text-anchor="middle" fill="#176b54" font-size="14" font-weight="700">E12</text>
+          <text x="223" y="65" text-anchor="middle" fill="#64736c" font-size="10">firstout</text><text x="223" y="96" text-anchor="middle" fill="#64736c" font-size="15">∅</text>
+        </g>
+      </g>
+
+      <!-- Arc nodes: tailvex, headvex, hlink, tlink, weight -->
+      <g font-family="ui-monospace,Consolas,monospace">
+        <g transform="translate(375 105)">
+          <rect width="400" height="130" rx="12" fill="#fff" stroke="#9bc9ad" stroke-width="2" /><text x="14" y="23" fill="#176b54" font-size="13" font-weight="700">弧结点 E01：0 → 1</text>
+          <rect x="10" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="88" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="166" y="34" width="72" height="82" rx="6" fill="#e9f4ed" /><rect x="244" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="322" y="34" width="68" height="82" rx="6" fill="#e9f4ed" />
+          <text x="46" y="58" text-anchor="middle" fill="#64736c" font-size="9">tailvex</text><text x="46" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">0</text>
+          <text x="124" y="58" text-anchor="middle" fill="#64736c" font-size="9">headvex</text><text x="124" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">1</text>
+          <text x="202" y="58" text-anchor="middle" fill="#176b54" font-size="9">hlink</text><text x="202" y="85" text-anchor="middle" fill="#176b54" font-size="12" font-weight="700">E31</text>
+          <text x="280" y="58" text-anchor="middle" fill="#64736c" font-size="9">tlink</text><text x="280" y="85" text-anchor="middle" fill="#64736c" font-size="12">∅</text>
+          <text x="356" y="58" text-anchor="middle" fill="#64736c" font-size="9">weight</text><text x="356" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">8</text>
+        </g>
+        <g transform="translate(760 400)">
+          <rect width="400" height="130" rx="12" fill="#fff" stroke="#9bc9ad" stroke-width="2" /><text x="14" y="23" fill="#176b54" font-size="13" font-weight="700">弧结点 E12：1 → 2</text>
+          <rect x="10" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="88" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="166" y="34" width="72" height="82" rx="6" fill="#e9f4ed" /><rect x="244" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="322" y="34" width="68" height="82" rx="6" fill="#e9f4ed" />
+          <text x="46" y="58" text-anchor="middle" fill="#64736c" font-size="9">tailvex</text><text x="46" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">1</text>
+          <text x="124" y="58" text-anchor="middle" fill="#64736c" font-size="9">headvex</text><text x="124" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">2</text>
+          <text x="202" y="58" text-anchor="middle" fill="#176b54" font-size="9">hlink</text><text x="202" y="85" text-anchor="middle" fill="#64736c" font-size="12">∅</text>
+          <text x="280" y="58" text-anchor="middle" fill="#64736c" font-size="9">tlink</text><text x="280" y="85" text-anchor="middle" fill="#64736c" font-size="12">∅</text>
+          <text x="356" y="58" text-anchor="middle" fill="#64736c" font-size="9">weight</text><text x="356" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">4</text>
+        </g>
+        <g transform="translate(375 635)">
+          <rect width="400" height="130" rx="12" fill="#fff" stroke="#9bc9ad" stroke-width="2" /><text x="14" y="23" fill="#176b54" font-size="13" font-weight="700">弧结点 E31：3 → 1</text>
+          <rect x="10" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="88" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="166" y="34" width="72" height="82" rx="6" fill="#e9f4ed" /><rect x="244" y="34" width="72" height="82" rx="6" fill="#f7f8f4" /><rect x="322" y="34" width="68" height="82" rx="6" fill="#e9f4ed" />
+          <text x="46" y="58" text-anchor="middle" fill="#64736c" font-size="9">tailvex</text><text x="46" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">3</text>
+          <text x="124" y="58" text-anchor="middle" fill="#64736c" font-size="9">headvex</text><text x="124" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">1</text>
+          <text x="202" y="58" text-anchor="middle" fill="#176b54" font-size="9">hlink</text><text x="202" y="85" text-anchor="middle" fill="#64736c" font-size="12">∅</text>
+          <text x="280" y="58" text-anchor="middle" fill="#64736c" font-size="9">tlink</text><text x="280" y="85" text-anchor="middle" fill="#64736c" font-size="12">∅</text>
+          <text x="356" y="58" text-anchor="middle" fill="#64736c" font-size="9">weight</text><text x="356" y="85" text-anchor="middle" fill="#17211e" font-size="13" font-weight="700">6</text>
+        </g>
+      </g>
+      <text x="24" y="835" fill="#64736c" font-size="12">同弧头链：E01.hlink → E31；同弧尾链：E01.tlink = ∅，E12.tlink = ∅，E31.tlink = ∅。</text>
+    </svg>
+  </div>
+  <figcaption id="directed-example-caption" class="mt-3 text-sm leading-6 text-[var(--muted)]">顶点和弧均使用完整结构体字段卡片；有向箭头从弧尾顶点指向弧头顶点，弧结点中的 hlink、tlink 展示对应的十字链表后继。</figcaption>
+</figure>
+

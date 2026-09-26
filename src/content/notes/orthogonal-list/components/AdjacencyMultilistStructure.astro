@@ -1,0 +1,81 @@
+---
+---
+
+<figure class="my-8" aria-labelledby="multilist-structure-caption">
+  <div class="overflow-x-auto rounded-2xl border border-[var(--line)] bg-white p-4 sm:p-6">
+    <svg
+      class="mx-auto h-auto min-w-[760px] max-w-full"
+      viewBox="0 0 1000 620"
+      role="img"
+      aria-labelledby="multilist-svg-title multilist-svg-description"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title id="multilist-svg-title">邻接多重表顶点结点与边结点的关系</title>
+      <desc id="multilist-svg-description">
+        无向边 A-B 只保存一个边结点 E1。顶点 A 和 B 的 firstedge 都指向 E1；E1 的 ivex 为 A，jvex 为 B，ilink 和 jlink 当前都为空。
+      </desc>
+      <defs>
+        <marker id="multilist-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#176b54" />
+        </marker>
+      </defs>
+
+      <text x="40" y="42" fill="#17211e" font-size="20" font-weight="700">顶点结点（VexNode）</text>
+      <text x="40" y="70" fill="#64736c" font-size="14">无向边的两个端点都能从各自的 firstedge 找到同一个边结点</text>
+
+      <g>
+        <rect x="60" y="100" width="390" height="174" rx="14" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" />
+        <text x="82" y="130" fill="#176b54" font-size="14" font-weight="700">顶点结点 A</text>
+        <rect x="90" y="148" width="145" height="84" rx="8" fill="#ffffff" stroke="#dce3dc" />
+        <rect x="255" y="148" width="170" height="84" rx="8" fill="#e9f4ed" stroke="#9bc9ad" />
+        <text x="162" y="173" text-anchor="middle" fill="#64736c" font-size="13">data</text>
+        <text x="162" y="204" text-anchor="middle" fill="#17211e" font-size="19" font-weight="700">A</text>
+        <text x="340" y="173" text-anchor="middle" fill="#176b54" font-size="13">firstedge</text>
+        <text x="340" y="204" text-anchor="middle" fill="#176b54" font-size="17" font-weight="700">E₁</text>
+      </g>
+
+      <g>
+        <rect x="550" y="100" width="390" height="174" rx="14" fill="#f7f8f4" stroke="#cbd7ce" stroke-width="2" />
+        <text x="572" y="130" fill="#176b54" font-size="14" font-weight="700">顶点结点 B</text>
+        <rect x="575" y="148" width="145" height="84" rx="8" fill="#ffffff" stroke="#dce3dc" />
+        <rect x="740" y="148" width="170" height="84" rx="8" fill="#e9f4ed" stroke="#9bc9ad" />
+        <text x="647" y="173" text-anchor="middle" fill="#64736c" font-size="13">data</text>
+        <text x="647" y="204" text-anchor="middle" fill="#17211e" font-size="19" font-weight="700">B</text>
+        <text x="825" y="173" text-anchor="middle" fill="#176b54" font-size="13">firstedge</text>
+        <text x="825" y="204" text-anchor="middle" fill="#176b54" font-size="17" font-weight="700">E₁</text>
+      </g>
+
+      <path d="M 340 232 L 340 318 L 430 384" fill="none" stroke="#176b54" stroke-width="3" marker-end="url(#multilist-arrow)" />
+      <path d="M 825 232 L 825 318 L 680 384" fill="none" stroke="#176b54" stroke-width="3" marker-end="url(#multilist-arrow)" />
+      <rect x="370" y="302" width="100" height="28" rx="14" fill="#ffffff" />
+      <text x="420" y="321" text-anchor="middle" fill="#176b54" font-size="13" font-weight="600">A 的边链</text>
+      <rect x="680" y="302" width="100" height="28" rx="14" fill="#ffffff" />
+      <text x="730" y="321" text-anchor="middle" fill="#176b54" font-size="13" font-weight="600">B 的边链</text>
+
+      <text x="40" y="374" fill="#17211e" font-size="20" font-weight="700">边结点（EdgeBox）</text>
+      <text x="40" y="402" fill="#64736c" font-size="14">无向边 &#123;A, B&#125; 只保存一次；ilink / jlink 分别延续两个端点的边链</text>
+      <g>
+        <rect x="210" y="420" width="580" height="132" rx="14" fill="#ffffff" stroke="#9bc9ad" stroke-width="2" />
+        <rect x="222" y="432" width="104" height="108" rx="8" fill="#f7f8f4" />
+        <rect x="334" y="432" width="104" height="108" rx="8" fill="#f7f8f4" />
+        <rect x="446" y="432" width="104" height="108" rx="8" fill="#e9f4ed" />
+        <rect x="558" y="432" width="104" height="108" rx="8" fill="#e9f4ed" />
+        <rect x="670" y="432" width="108" height="108" rx="8" fill="#f7f8f4" />
+        <text x="274" y="460" text-anchor="middle" fill="#64736c" font-size="13">ivex</text>
+        <text x="274" y="493" text-anchor="middle" fill="#17211e" font-size="19" font-weight="700">A</text>
+        <text x="386" y="460" text-anchor="middle" fill="#64736c" font-size="13">jvex</text>
+        <text x="386" y="493" text-anchor="middle" fill="#17211e" font-size="19" font-weight="700">B</text>
+        <text x="498" y="460" text-anchor="middle" fill="#176b54" font-size="13">ilink</text>
+        <text x="498" y="493" text-anchor="middle" fill="#176b54" font-size="17" font-weight="700">∅</text>
+        <text x="610" y="460" text-anchor="middle" fill="#176b54" font-size="13">jlink</text>
+        <text x="610" y="493" text-anchor="middle" fill="#176b54" font-size="17" font-weight="700">∅</text>
+        <text x="724" y="460" text-anchor="middle" fill="#64736c" font-size="13">weight</text>
+        <text x="724" y="493" text-anchor="middle" fill="#17211e" font-size="17" font-weight="700">边权 w</text>
+        <text x="500" y="578" text-anchor="middle" fill="#64736c" font-size="13">边 E₁：A — B　（ivex 和 jvex 表示边的两个端点）</text>
+      </g>
+    </svg>
+  </div>
+  <figcaption id="multilist-structure-caption" class="mt-3 text-sm leading-6 text-[var(--muted)]">
+    A.firstedge 与 B.firstedge 指向同一个 E₁，因此无向边只存一个边结点；ilink、jlink 在本例中没有后继边。
+  </figcaption>
+</figure>

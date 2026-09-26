@@ -1,0 +1,94 @@
+---
+title: "十字链表与邻接多重表"
+description: "通过结点图示理解有向图的十字链表，以及无向图的邻接多重表如何组织顶点和边。"
+pubDate: 2026-09-26
+draft: false
+tags:
+  - 数据结构
+  - 图
+  - C语言
+category: "数据结构"
+---
+
+import OrthogonalListStructure from './components/OrthogonalListStructure.astro';
+import AdjacencyMultilistStructure from './components/AdjacencyMultilistStructure.astro';
+import DirectedOrthogonalExample from './components/DirectedOrthogonalExample.astro';
+import UndirectedMultilistExample from './components/UndirectedMultilistExample.astro';
+
+## 十字链表
+
+十字链表用于有向图。邻接表从顶点出发记录它的出弧；十字链表还为每个顶点保存入弧入口，因此可以分别沿出弧链和入弧链查找。
+
+顶点头结点中的 `data` 保存顶点值，`firstin` 和 `firstout` 分别指向第一条入弧和第一条出弧。弧结点中的 `tailvex`、`headvex` 描述弧的方向，`weight` 保存边权，`hlink`、`tlink` 连接相应的下一条弧。
+
+```c
+// 顶点头结点：保存顶点值和入弧、出弧两个链表入口。
+typedef struct OLArcNode OLArcNode;
+typedef struct OLVexNode {
+    elementtype data;          // 顶点值
+    OLArcNode *firstin;        // 第一条以该顶点为弧头的入弧
+    OLArcNode *firstout;       // 第一条以该顶点为弧尾的出弧
+} OLVexNode;
+
+// 弧结点：同一结点同时串入起点的出弧链和终点的入弧链。
+struct OLArcNode {
+    elementtype tailvex;       // 弧尾（起点）
+    elementtype headvex;       // 弧头（终点）
+    elementtype weight;        // 边权
+    OLArcNode *hlink;          // 同弧头的下一条入弧
+    OLArcNode *tlink;          // 同弧尾的下一条出弧
+};
+```
+
+下面用一条有向弧 `A → B` 展示两个顶点头结点怎样找到同一个弧结点 E₁。
+
+<OrthogonalListStructure />
+
+### 有向图示例
+
+下图包含弧 `0 → 1`、`1 → 2`、`3 → 1`。边权取随机示例值，仅用于演示：`0 → 1` 权值为 8，`1 → 2` 权值为 4，`3 → 1` 权值为 6。
+
+<DirectedOrthogonalExample />
+
+## 邻接多重表
+
+邻接多重表用于无向图。邻接表会在两个端点各保存一条邻接项；邻接多重表把这两个位置改为共享同一个边结点。严格地说，无向边写作 `{a, b}`，不带方向；`a → b` 和 `b → a` 通常表示两条有向弧。
+
+顶点头结点用 `firstedge` 指向依附该顶点的第一条边。边结点保存两个端点 `ivex`、`jvex` 和边权 `weight`；`ilink`、`jlink` 分别连接依附于这两个端点的下一条边。
+
+```c
+// 顶点头结点：保存顶点值和第一条依附该顶点的边。
+typedef struct MLEdgeNode MLEdgeNode;
+typedef struct MLVexNode {
+    elementtype data;          // 顶点值
+    MLEdgeNode *firstedge;     // 依附该顶点的第一条边
+} MLVexNode;
+
+// 边结点：同一个结点同时串入两个端点各自的边链。
+struct MLEdgeNode {
+    elementtype ivex;          // 边的一个端点（按当前实现保存顶点值或下标）
+    elementtype jvex;          // 边的另一个端点（按当前实现保存顶点值或下标）
+    elementtype weight;        // 边权
+    MLEdgeNode *ilink;          // 与 ivex 相连的下一条边
+    MLEdgeNode *jlink;          // 与 jvex 相连的下一条边
+};
+```
+
+下面用一条无向边 `{A, B}` 展示两个顶点的 `firstedge` 如何共同指向一个边结点 E₁。
+
+<AdjacencyMultilistStructure />
+
+### 无向图示例
+
+下图按无向边理解你给出的连接关系：`{0, 1}`、`{1, 2}`、`{2, 3}`、`{3, 0}`。图中边权为随机示例值，分别是 5、8、3、7；线段不带箭头，表示边没有方向。
+
+<UndirectedMultilistExample />
+
+## 两种结构的字段对照
+
+| 结构 | 适用图类型 | 顶点结点入口 | 边 / 弧结点的两个链域 |
+| --- | --- | --- | --- |
+| 十字链表 | 有向图 | `firstin`、`firstout` | `hlink`、`tlink`：分别沿同弧头、同弧尾继续遍历。 |
+| 邻接多重表 | 无向图 | `firstedge` | `ilink`、`jlink`：分别沿边的两个端点继续遍历。 |
+
+代码中的 `elementtype` 需要由你的程序另行定义。如果 `tailvex`、`headvex`、`ivex`、`jvex` 保存顶点表下标，通常会把它们定义成整数类型；如果直接保存顶点标识，也可以使用相应的顶点类型。不同教材对字段名、端点存储方式可能略有区别，应优先跟随课程给出的定义。
