@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+:root {
+  color-scheme: light;
+  font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --ink: #17211e;
+  --muted: #64736c;
+  --paper: #f7f8f4;
+  --line: #dce3dc;
+  --accent: #176b54;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body { margin: 0; color: var(--ink); }
+a { color: inherit; }
+a:focus-visible { outline: 3px solid #f1ae45; outline-offset: 4px; }
+::selection { background: #c9e4d4; }

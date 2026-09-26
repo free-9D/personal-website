@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = '个人知识与成长档案。' } = Astro.props;
+const pageTitle = title === '首页' ? '个人网站' : `${title} · 个人网站`;
+const path = (route: string) => `${import.meta.env.BASE_URL}${route.replace(/^\//, '')}`;
+const navigation = [
+  { label: '首页', href: path('') },
+  { label: '关于', href: path('about/') },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f8f4" />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-[var(--line)]">
+      <nav aria-label="主导航" class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+        <a class="font-semibold tracking-tight no-underline" href={path('')}>个人网站<span class="text-[var(--accent)]">.</span></a>
+        <div class="flex gap-6 text-sm text-[var(--muted)]">
+          {navigation.map((item) => <a class="hover:text-[var(--ink)]" href={item.href}>{item.label}</a>)}
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto w-full max-w-5xl flex-1 px-6 py-14 md:py-20">
+      <slot />
+    </main>
+    <footer class="border-t border-[var(--line)]">
+      <div class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+        <span>记录学习、思考与正在做的事。</span>
+        <span>© {new Date().getFullYear()} · 用心构建</span>
+      </div>
+    </footer>
+  </body>
+</html>

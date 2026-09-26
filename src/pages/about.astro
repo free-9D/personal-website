@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="关于" description="关于本站与作者的基础介绍。">
+  <article class="max-w-2xl">
+    <p class="mb-4 text-sm font-medium tracking-[0.18em] text-[var(--accent)] uppercase">About</p>
+    <h1 class="text-4xl font-semibold tracking-tight">关于我</h1>
+    <div class="mt-8 space-y-5 text-lg leading-8 text-[var(--muted)]">
+      <p>你好，我是 <span class="rounded bg-amber-100 px-1 text-amber-900">[在此填写你的名字或称呼]</span>。目前 <span class="rounded bg-amber-100 px-1 text-amber-900">[在此填写你的身份、方向或所在地；不想公开可删除]</span>。</p>
+      <p>我正在关注 <span class="rounded bg-amber-100 px-1 text-amber-900">[在此填写你感兴趣的主题]</span>，并用这个网站记录学习笔记、想法和项目进展。</p>
+      <p>这个网站会随着内容慢慢成长。欢迎通过 GitHub 查看我的公开项目与活动。</p>
+    </div>
+    <a class="mt-8 inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium no-underline hover:border-[var(--accent)]" href="https://github.com/free-9D" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+  </article>
+</BaseLayout>

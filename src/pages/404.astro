@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const home = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="页面不存在" description="找不到你访问的页面。">
+  <section class="mx-auto max-w-xl py-12 text-center">
+    <p class="text-sm font-medium tracking-[0.18em] text-[var(--accent)]">404 · NOT FOUND</p>
+    <h1 class="mt-5 text-4xl font-semibold tracking-tight">这页暂时找不到。</h1>
+    <p class="mt-4 leading-7 text-[var(--muted)]">链接可能已经更改，或者地址输入有误。你可以回到首页继续浏览。</p>
+    <a class="mt-8 inline-flex rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-medium text-white no-underline hover:bg-[#10533f]" href={home}>返回首页</a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="首页" description="个人知识与成长档案，记录学习、思考与项目。">
+  <section class="max-w-3xl">
+    <p class="mb-5 text-sm font-medium tracking-[0.18em] text-[var(--accent)] uppercase">Personal archive · 个人档案</p>
+    <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">你好，欢迎来到<br class="hidden sm:block" />我的个人空间。</h1>
+    <p class="mt-7 max-w-xl text-lg leading-8 text-[var(--muted)]">这里会逐步收录我的学习笔记、思考与项目记录。站点正在搭建中，更多内容稍后更新。</p>
+    <div class="mt-9 flex flex-wrap gap-3">
+      <a class="rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#10533f]" href={`${base}about/`}>了解更多 <span aria-hidden="true">↗</span></a>
+      <a class="rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium no-underline transition hover:border-[var(--accent)]" href="https://github.com/free-9D">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  <section class="mt-20 grid gap-4 border-t border-[var(--line)] pt-8 sm:grid-cols-3" aria-label="站点内容">
+    <div><span class="text-sm text-[var(--muted)]">01 / 笔记</span><p class="mt-2 font-medium">整理值得复用的知识</p></div>
+    <div><span class="text-sm text-[var(--muted)]">02 / 思考</span><p class="mt-2 font-medium">留下过程中的观察</p></div>
+    <div><span class="text-sm text-[var(--muted)]">03 / 项目</span><p class="mt-2 font-medium">记录从想法到实现</p></div>
+  </section>
+</BaseLayout>
