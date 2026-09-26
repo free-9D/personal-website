@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { data } = project;
+const links = data.links ?? [];
+const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+const projectIndex = `${import.meta.env.BASE_URL}projects/`;
+const safeExternalUrl = (raw: string) => {
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+};
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <article>
+    <a class="inline-flex rounded-sm text-sm text-[var(--muted)] no-underline hover:text-[var(--accent)]" href={projectIndex}>← 返回项目列表</a>
+    <header class="mt-8 border-b border-[var(--line)] pb-8">
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--muted)]">
+        <span class="rounded-full bg-[var(--paper)] px-3 py-1 font-medium text-[var(--ink)]">{data.status}</span>
+        <span>{dateLabel(data.startDate)}{data.endDate ? ` — ${dateLabel(data.endDate)}` : ' — 至今'}</span>
+      </div>
+      <h1 class="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">{data.title}</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-[var(--muted)]">{data.description}</p>
+      {data.tags.length > 0 && (
+        <ul aria-label="项目标签" class="mt-5 flex list-none flex-wrap gap-2 p-0">
+          {data.tags.map((tag) => <li class="rounded-md bg-[var(--paper)] px-2.5 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
+        </ul>
+      )}
+      {links.length > 0 && (
+        <ul aria-label="项目相关链接" class="mt-6 flex list-none flex-wrap gap-3 p-0">
+          {links.map((link) => {
+            const href = safeExternalUrl(link.url);
+            return href ? <li><a class="inline-flex rounded-lg border border-[var(--line)] px-4 py-2 text-sm font-medium no-underline hover:border-[var(--accent)] hover:text-[var(--accent)]" href={href} target="_blank" rel="noopener noreferrer">{link.label}<span class="sr-only">（在新标签页打开）</span></a></li> : null;
+          })}
+        </ul>
+      )}
+    </header>
+    <div class="prose prose-slate mt-10 max-w-none leading-7 prose-headings:tracking-tight prose-a:text-[var(--accent)] prose-img:rounded-xl">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

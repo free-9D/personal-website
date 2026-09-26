@@ -11,6 +11,9 @@ const pageTitle = title === '首页' ? '个人网站' : `${title} · 个人网�
 const path = (route: string) => `${import.meta.env.BASE_URL}${route.replace(/^\//, '')}`;
 const navigation = [
   { label: '首页', href: path('') },
+  { label: '笔记', href: path('notes/') },
+  { label: '思考', href: path('thoughts/') },
+  { label: '项目', href: path('projects/') },
   { label: '关于', href: path('about/') },
 ];
 ---

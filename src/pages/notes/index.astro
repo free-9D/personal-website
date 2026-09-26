@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const base = import.meta.env.BASE_URL;
+const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+---
+
+<BaseLayout title="笔记" description="整理值得复用的知识与学习笔记。">
+  <header class="max-w-2xl">
+    <p class="text-sm font-medium tracking-[0.18em] text-[var(--accent)]">NOTES · 笔记</p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">学习与整理</h1>
+    <p class="mt-5 text-lg leading-8 text-[var(--muted)]">把值得复用的知识收集起来，慢慢搭建自己的知识库。</p>
+  </header>
+
+  {notes.length > 0 ? (
+    <ul class="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+      {notes.map((note) => (
+        <li class="py-7">
+          <article>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--muted)]">
+              <time datetime={note.data.pubDate.toISOString()}>{dateLabel(note.data.pubDate)}</time>
+              {note.data.category && <span aria-label="分类">· {note.data.category}</span>}
+            </div>
+            <h2 class="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
+              <a class="no-underline transition hover:text-[var(--accent)]" href={`${base}notes/${note.id}/`}>{note.data.title}</a>
+            </h2>
+            <p class="mt-2 max-w-3xl leading-7 text-[var(--muted)]">{note.data.description}</p>
+            {note.data.tags.length > 0 && <ul class="mt-4 flex flex-wrap gap-2" aria-label="标签">
+              {note.data.tags.map((tag) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
+            </ul>}
+          </article>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <section class="mt-12 rounded-2xl border border-dashed border-[var(--line)] bg-white/50 px-6 py-12 text-center sm:px-10" aria-labelledby="notes-empty-title">
+      <p class="text-3xl" aria-hidden="true">✎</p>
+      <h2 id="notes-empty-title" class="mt-4 text-xl font-semibold">笔记正在整理中</h2>
+      <p class="mx-auto mt-2 max-w-md leading-7 text-[var(--muted)]">这里还没有公开的笔记。整理好第一篇内容后，它就会出现在这里。</p>
+    </section>
+  )}
+</BaseLayout>

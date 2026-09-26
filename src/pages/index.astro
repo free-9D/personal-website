@@ -14,8 +14,8 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
   <section class="mt-20 grid gap-4 border-t border-[var(--line)] pt-8 sm:grid-cols-3" aria-label="站点内容">
-    <div><span class="text-sm text-[var(--muted)]">01 / 笔记</span><p class="mt-2 font-medium">整理值得复用的知识</p></div>
-    <div><span class="text-sm text-[var(--muted)]">02 / 思考</span><p class="mt-2 font-medium">留下过程中的观察</p></div>
-    <div><span class="text-sm text-[var(--muted)]">03 / 项目</span><p class="mt-2 font-medium">记录从想法到实现</p></div>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}notes/`}><span class="text-sm text-[var(--muted)]">01 / 笔记</span><p class="mt-2 font-medium">整理值得复用的知识 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}thoughts/`}><span class="text-sm text-[var(--muted)]">02 / 思考</span><p class="mt-2 font-medium">留下过程中的观察 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}projects/`}><span class="text-sm text-[var(--muted)]">03 / 项目</span><p class="mt-2 font-medium">记录从想法到实现 <span aria-hidden="true">↗</span></p></a>
   </section>
 </BaseLayout>
