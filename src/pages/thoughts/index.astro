@@ -1,11 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentCard from '../../components/content/ContentCard.astro';
+import ContentEmptyState from '../../components/content/ContentEmptyState.astro';
 
 const thoughts = (await getCollection('thoughts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const base = import.meta.env.BASE_URL;
-const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
 ---
 
 <BaseLayout title="思考" description="记录过程中的观察、想法与思考。">
@@ -16,30 +17,21 @@ const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'nume
   </header>
 
   {thoughts.length > 0 ? (
-    <ul class="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+    <ul class="mt-12 grid list-none gap-5 p-0 sm:grid-cols-2">
       {thoughts.map((thought) => (
-        <li class="py-7">
-          <article>
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--muted)]">
-              <time datetime={thought.data.pubDate.toISOString()}>{dateLabel(thought.data.pubDate)}</time>
-              {thought.data.kind && <span>· {thought.data.kind}</span>}
-            </div>
-            <h2 class="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
-              <a class="no-underline transition hover:text-[var(--accent)]" href={`${base}thoughts/${thought.id}/`}>{thought.data.title}</a>
-            </h2>
-            <p class="mt-2 max-w-3xl leading-7 text-[var(--muted)]">{thought.data.description}</p>
-            {thought.data.tags.length > 0 && <ul class="mt-4 flex flex-wrap gap-2" aria-label="标签">
-              {thought.data.tags.map((tag) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
-            </ul>}
-          </article>
+        <li>
+          <ContentCard
+            title={thought.data.title}
+            description={thought.data.description}
+            href={`${base}thoughts/${thought.id}/`}
+            pubDate={thought.data.pubDate}
+            tags={thought.data.tags}
+            eyebrow={thought.data.kind}
+          />
         </li>
       ))}
     </ul>
   ) : (
-    <section class="mt-12 rounded-2xl border border-dashed border-[var(--line)] bg-white/50 px-6 py-12 text-center sm:px-10" aria-labelledby="thoughts-empty-title">
-      <p class="text-3xl" aria-hidden="true">◌</p>
-      <h2 id="thoughts-empty-title" class="mt-4 text-xl font-semibold">思考正在积累中</h2>
-      <p class="mx-auto mt-2 max-w-md leading-7 text-[var(--muted)]">这里还没有公开的思考记录。新的观察整理完成后，会在这里与您分享。</p>
-    </section>
+    <ContentEmptyState title="思考正在积累中" description="这里还没有公开的思考记录。新的观察整理完成后，会在这里与您分享。" icon="◌" />
   )}
 </BaseLayout>

@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleReadingLayout from '../../layouts/ArticleReadingLayout.astro';
 
 export async function getStaticPaths() {
   const thoughts = await getCollection('thoughts', ({ data }) => !data.draft);
@@ -8,28 +8,26 @@ export async function getStaticPaths() {
 }
 
 const { thought } = Astro.props;
-const { Content } = await render(thought);
+const { Content, headings } = await render(thought);
+const allThoughts = await getCollection('thoughts');
+const relatedCollectionsNeeded = new Set(thought.data.related.map(({ collection }) => collection));
+const [allNotes, allProjects] = await Promise.all([
+  relatedCollectionsNeeded.has('notes') ? getCollection('notes') : Promise.resolve([]),
+  thought.data.project || relatedCollectionsNeeded.has('projects') ? getCollection('projects') : Promise.resolve([]),
+]);
+const publicThoughts = allThoughts.filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const currentIndex = publicThoughts.findIndex((entry) => entry.id === thought.id);
+const relatedCollections = { notes: allNotes, thoughts: allThoughts, projects: allProjects };
+const related = thought.data.related.flatMap(({ collection, id }) => {
+  const entry = relatedCollections[collection].find((item) => item.id === id && !item.data.draft);
+  return entry ? [{ collection, id: entry.id, title: entry.data.title, description: entry.data.description }] : [];
+});
+const project = thought.data.project ? allProjects.find((item) => item.id === thought.data.project && !item.data.draft) : undefined;
 const base = import.meta.env.BASE_URL;
-const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+const pathFor = (collection: string, id: string) => `${base}${collection}/${id}/`;
+const previous = currentIndex > 0 ? publicThoughts[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < publicThoughts.length - 1 ? publicThoughts[currentIndex + 1] : undefined;
 ---
 
-<BaseLayout title={thought.data.title} description={thought.data.description}>
-  <article class="mx-auto max-w-3xl">
-    <a class="text-sm text-[var(--accent)] no-underline hover:underline" href={`${base}thoughts/`}>← 返回思考列表</a>
-    <header class="mt-8 border-b border-[var(--line)] pb-8">
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--muted)]">
-        <time datetime={thought.data.pubDate.toISOString()}>发布于 {dateLabel(thought.data.pubDate)}</time>
-        {thought.data.updatedDate && <time datetime={thought.data.updatedDate.toISOString()}>更新于 {dateLabel(thought.data.updatedDate)}</time>}
-        {thought.data.kind && <span>· {thought.data.kind}</span>}
-      </div>
-      <h1 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">{thought.data.title}</h1>
-      <p class="mt-5 text-lg leading-8 text-[var(--muted)]">{thought.data.description}</p>
-      {thought.data.tags.length > 0 && <ul class="mt-5 flex flex-wrap gap-2" aria-label="标签">
-        {thought.data.tags.map((tag) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
-      </ul>}
-    </header>
-    <div class="content-body mt-10 leading-8 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_p]:my-5 [&_a]:text-[var(--accent)] [&_a]:underline [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--line)] [&_blockquote]:pl-5 [&_blockquote]:text-[var(--muted)] [&_pre]:my-6 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-[#17211e] [&_pre]:p-4 [&_pre]:text-sm [&_pre]:text-white [&_code]:rounded [&_code]:bg-black/5 [&_code]:px-1 [&_img]:my-6 [&_img]:h-auto [&_img]:max-w-full">
-      <Content />
-    </div>
-  </article>
-</BaseLayout>
+<ArticleReadingLayout entry={thought} collection="thoughts" collectionLabel="思考" listLabel="思考" Content={Content} headings={headings} related={related} project={project ? { id: project.id, title: project.data.title } : undefined} previous={previous ? { id: previous.id, title: previous.data.title, href: pathFor('thoughts', previous.id) } : undefined} next={next ? { id: next.id, title: next.data.title, href: pathFor('thoughts', next.id) } : undefined} />

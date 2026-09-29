@@ -2,12 +2,23 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const commonSchema = z.object({
-  title: z.string(),
-  description: z.string(),
+  title: z.string().min(1),
+  description: z.string().min(1),
   pubDate: z.date(),
   updatedDate: z.date().optional(),
   draft: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
+  /** Stable series identifier; series pages are planned for Phase 3. */
+  series: z.string().min(1).optional(),
+  /** Explicit cross-collection links use the collection name and content id. */
+  related: z
+    .array(
+      z.object({
+        collection: z.enum(["notes", "thoughts", "projects"]),
+        id: z.string().min(1),
+      }),
+    )
+    .default([]),
 });
 
 /** Keep folder/index.md entries addressable by their folder name. */
@@ -24,6 +35,8 @@ const notes = defineCollection({
   }),
   schema: commonSchema.extend({
     category: z.string().optional(),
+    /** Optional project id; a project page can gather related notes. */
+    project: z.string().min(1).optional(),
   }),
 });
 
@@ -35,6 +48,8 @@ const thoughts = defineCollection({
   }),
   schema: commonSchema.extend({
     kind: z.string().optional(),
+    /** Optional project id; a project page can gather related thoughts. */
+    project: z.string().min(1).optional(),
   }),
 });
 

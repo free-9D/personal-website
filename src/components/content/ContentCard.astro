@@ -1,0 +1,64 @@
+---
+interface ExternalLink {
+  label: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  pubDate: Date;
+  tags?: string[];
+  eyebrow?: string;
+  status?: string;
+  dateRange?: string;
+  dateTime?: Date;
+  links?: ExternalLink[];
+  tagLabel?: string;
+}
+
+const {
+  title,
+  description,
+  href,
+  pubDate,
+  tags = [],
+  eyebrow,
+  status,
+  dateRange,
+  dateTime,
+  links = [],
+  tagLabel = '标签',
+} = Astro.props;
+const dateLabel = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(pubDate);
+const safeExternalUrl = (raw: string) => {
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+};
+---
+
+<article class="flex h-full flex-col rounded-2xl border border-[var(--line)] bg-white/60 p-6 transition hover:border-[var(--accent)]">
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--muted)]">
+    {status && <span class="rounded-full bg-[var(--paper)] px-3 py-1 font-medium text-[var(--ink)]">{status}</span>}
+    {eyebrow && <span>{eyebrow}</span>}
+    <time datetime={(dateTime ?? pubDate).toISOString()}>{dateRange ?? dateLabel}</time>
+  </div>
+  <h2 class="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">
+    <a class="rounded-sm no-underline transition hover:text-[var(--accent)]" href={href}>{title}</a>
+  </h2>
+  <p class="mt-3 flex-1 leading-7 text-[var(--muted)]">{description}</p>
+  {tags.length > 0 && <ul class="mt-5 flex flex-wrap gap-2" aria-label={tagLabel}>
+    {tags.map((tag) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
+  </ul>}
+  {links.some((link) => safeExternalUrl(link.url)) && <ul class="mt-5 flex flex-wrap gap-3" aria-label="项目外部链接">
+    {links.map((link) => {
+      const externalHref = safeExternalUrl(link.url);
+      return externalHref ? <li><a class="text-sm font-medium text-[var(--accent)] underline-offset-4 hover:underline" href={externalHref} target="_blank" rel="noopener noreferrer">{link.label}<span class="sr-only">（在新标签页打开）</span></a></li> : null;
+    })}
+  </ul>}
+</article>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+const { title, description, icon = '✎' } = Astro.props;
+---
+
+<section class="mt-12 rounded-2xl border border-dashed border-[var(--line)] bg-white/50 px-6 py-12 text-center sm:px-10" aria-label={title}>
+  <p class="text-3xl" aria-hidden="true">{icon}</p>
+  <h2 class="mt-4 text-xl font-semibold">{title}</h2>
+  <p class="mx-auto mt-2 max-w-md leading-7 text-[var(--muted)]">{description}</p>
+</section>

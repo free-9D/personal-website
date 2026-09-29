@@ -34,8 +34,11 @@ src/content/notes/<英文短 slug>/index.md
 | `draft` | 可选，默认 `false` | 设为 `true` 时，笔记不会进入列表或生成详情页；准备公开时设为 `false`。 |
 | `tags` | 可选，默认空数组 | 可跨笔记、思考和项目使用的主题标签。 |
 | `category` | 可选 | 笔记的主要分类。标签适合描述多个主题，分类表示这篇笔记最主要的归属。 |
+| `series` | 可选 | 系列的稳定标识符；系列列表功能计划在后续阶段实现。 |
+| `project` | 可选 | 所属项目的内容 id，例如项目目录名 `personal-website`。 |
+| `related` | 可选，默认空数组 | 显式关联其他笔记、思考或项目，填写 collection 和内容 id。 |
 
-当前 schema 尚未支持封面、系列、相关文章等字段；不要先把这些字段添加到 frontmatter，否则内容校验会报错。普通写作使用 `.md` 即可；只有确实需要在正文中组合组件时再考虑 `.mdx`。
+笔记、思考和项目的可复制模板分别位于仓库根目录的 `templates/notes.md`、`templates/thoughts.md`、`templates/projects.md`。普通写作使用 `.md` 即可；只有确实需要在正文中组合文章专属组件时再考虑 `.mdx`，这些组件应放在对应文章目录的 `components/` 子目录中。
 
 ## 可复制的完整模板
 
@@ -68,6 +71,17 @@ tags:
 
 # `category`：可选。只用于笔记，填写单一主要分类；没有分类就删除此行。
 category: "填写分类"
+
+# `series`：可选。填写稳定的系列标识符；暂时不需要系列时删除或注释。
+# series: "data-structures"
+
+# `project`：可选。填写所属项目在 src/content/projects 下的目录 id。
+# project: "personal-website"
+
+# `related`：可选。显式关联内容；collection 为集合名，id 为文章目录 id。
+# related:
+#   - collection: "notes"
+#     id: "sorting-algorithms"
 ---
 
 <!-- 正文从这里开始。详情页已经显示 title，不必再重复写一级标题。 -->
