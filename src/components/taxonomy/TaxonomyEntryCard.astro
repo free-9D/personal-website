@@ -1,0 +1,18 @@
+---
+import ContentCard from '../content/ContentCard.astro';
+import type { PublicContentRecord } from '../../utils/public-content';
+import { publicCollectionLabel } from '../../utils/public-content';
+
+interface Props { item: PublicContentRecord }
+const { item } = Astro.props;
+const eyebrow = publicCollectionLabel(item.collection);
+---
+
+<ContentCard
+  title={item.title}
+  description={item.description}
+  href={item.url}
+  pubDate={item.pubDate}
+  tags={item.tags}
+  eyebrow={eyebrow}
+/>

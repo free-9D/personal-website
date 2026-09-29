@@ -1,0 +1,35 @@
+---
+import { getPublicContent, taxonomySlug, publicCollectionLabel, type PublicContentRecord } from '../../utils/public-content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TaxonomyEntryCard from '../../components/taxonomy/TaxonomyEntryCard.astro';
+
+const compareSeriesEntries = (a: PublicContentRecord, b: PublicContentRecord) => {
+  if (a.seriesOrder !== undefined && b.seriesOrder !== undefined && a.seriesOrder !== b.seriesOrder) return a.seriesOrder - b.seriesOrder;
+  if (a.seriesOrder !== undefined && b.seriesOrder === undefined) return -1;
+  if (a.seriesOrder === undefined && b.seriesOrder !== undefined) return 1;
+  return a.pubDate.valueOf() - b.pubDate.valueOf() || a.title.localeCompare(b.title, 'zh-CN');
+};
+
+export async function getStaticPaths() {
+  const content = await getPublicContent();
+  const ids = new Set(content.flatMap((item) => item.series ? [item.series] : []));
+  return [...ids].map((series) => ({ params: { series: taxonomySlug(series) }, props: { series } }));
+}
+
+const { series } = Astro.props;
+const allContent = await getPublicContent();
+const content = allContent.filter((item) => item.series === series).sort(compareSeriesEntries);
+const title = content.find((item) => item.seriesTitle)?.seriesTitle ?? series;
+---
+
+<BaseLayout title={`系列：${title}`} description={`按顺序阅读「${title}」系列中的公开内容。`}>
+  <header class="max-w-2xl">
+    <a class="text-sm text-[var(--accent)] no-underline hover:underline" href={`${import.meta.env.BASE_URL}series/`}>← 所有系列</a>
+    <p class="mt-8 text-sm font-medium tracking-[0.18em] text-[var(--accent)]">SERIES · 系列</p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+    <p class="mt-5 text-lg leading-8 text-[var(--muted)]">共 {content.length} 篇公开内容，按系列顺序排列。</p>
+  </header>
+  <ol class="mt-10 grid list-none gap-5 p-0 sm:grid-cols-2">
+    {content.map((item) => <li class="relative"><span class="absolute right-4 top-4 z-10 rounded-full bg-[var(--paper)] px-2 text-xs text-[var(--muted)]" aria-label={item.seriesOrder !== undefined ? `系列第 ${item.seriesOrder} 篇` : `发布于 ${item.pubDate.toLocaleDateString('zh-CN')}`}>{item.seriesOrder ?? publicCollectionLabel(item.collection)}</span><TaxonomyEntryCard item={item} /></li>)}
+  </ol>
+</BaseLayout>

@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const indexUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}search-index.json`;
+---
+
+<BaseLayout title="站内搜索" description="搜索公开的笔记、思考与项目。">
+  <section aria-labelledby="search-title" data-search-index={indexUrl}>
+    <p class="text-sm font-medium tracking-[0.18em] text-[var(--accent)]">SEARCH · 搜索</p>
+    <h1 id="search-title" class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">站内搜索</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-8 text-[var(--muted)]">搜索公开笔记、思考与项目的标题、摘要、正文和标签。</p>
+
+    <form id="search-form" role="search" class="mt-9 flex flex-col gap-3 sm:flex-row">
+      <label class="sr-only" for="search-query">输入搜索关键词</label>
+      <input
+        id="search-query"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="试试：数据结构、AI、学习……"
+        aria-describedby="search-help search-status"
+        class="min-h-12 flex-1 rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-base text-[var(--ink)] outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
+      />
+      <button type="submit" class="min-h-12 rounded-xl bg-[var(--accent)] px-6 py-3 font-medium text-white hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]">搜索</button>
+    </form>
+    <p id="search-help" class="mt-2 text-sm text-[var(--muted)]">输入关键词后会即时显示结果；可用方向键浏览结果，按 Esc 清空。</p>
+    <p id="search-status" class="mt-7 text-sm text-[var(--muted)]" role="status" aria-live="polite" aria-atomic="true">正在加载搜索索引…</p>
+    <ol id="search-results" aria-label="搜索结果" class="mt-4 grid list-none gap-4 p-0"></ol>
+  </section>
+</BaseLayout>
+
+<script>
+  import { searchContent, type SearchRecord } from '../utils/search';
+
+  const section = document.querySelector<HTMLElement>('[data-search-index]');
+  const form = document.querySelector<HTMLFormElement>('#search-form');
+  const input = document.querySelector<HTMLInputElement>('#search-query');
+  const status = document.querySelector<HTMLElement>('#search-status');
+  const results = document.querySelector<HTMLOListElement>('#search-results');
+  const labels = { notes: '笔记', thoughts: '思考', projects: '项目' } as const;
+  let records: SearchRecord[] = [];
+  let loadError = false;
+
+  function showResults(query: string) {
+    if (!status || !results) return;
+    results.replaceChildren();
+    if (loadError) {
+      status.textContent = '搜索索引加载失败，请检查网络后刷新页面重试。';
+      return;
+    }
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
+      status.textContent = '输入关键词，开始搜索。';
+      return;
+    }
+    const matches = searchContent(records, trimmedQuery);
+    if (!matches.length) {
+      status.textContent = `没有找到与“${trimmedQuery}”相关的内容。`;
+      return;
+    }
+    status.textContent = `找到 ${matches.length} 条结果。`;
+
+    for (const { record } of matches.slice(0, 50)) {
+      const item = document.createElement('li');
+      item.className = 'rounded-2xl border border-[var(--line)] bg-white p-5 sm:p-6';
+      const meta = document.createElement('p');
+      meta.className = 'text-sm text-[var(--muted)]';
+      const date = new Date(record.pubDate);
+      meta.textContent = `${labels[record.collection]} · ${Number.isNaN(date.valueOf()) ? '' : new Intl.DateTimeFormat('zh-CN').format(date)}`;
+      const link = document.createElement('a');
+      link.className = 'mt-2 inline-block text-xl font-semibold text-[var(--ink)] underline decoration-[var(--line)] underline-offset-4 hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]';
+      link.href = record.url;
+      link.textContent = record.title;
+      const description = document.createElement('p');
+      description.className = 'mt-2 leading-7 text-[var(--muted)]';
+      description.textContent = record.description;
+      item.append(meta, link, description);
+      results.append(item);
+    }
+  }
+
+  if (section && form && input && status && results) {
+    input.value = new URLSearchParams(window.location.search).get('q') ?? '';
+    fetch(section.dataset.searchIndex ?? '')
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json() as Promise<SearchRecord[]>;
+      })
+      .then((data) => {
+        records = data;
+        showResults(input.value);
+      })
+      .catch(() => {
+        loadError = true;
+        showResults('');
+      });
+
+    input.addEventListener('input', () => showResults(input.value));
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      showResults(input.value);
+      results.querySelector<HTMLAnchorElement>('a')?.focus();
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        const first = results.querySelector<HTMLAnchorElement>('a');
+        if (first) {
+          event.preventDefault();
+          first.focus();
+        }
+      } else if (event.key === 'Escape') {
+        input.value = '';
+        showResults('');
+      }
+    });
+    results.addEventListener('keydown', (event) => {
+      if (!(event.target instanceof HTMLAnchorElement)) return;
+      const links = [...results.querySelectorAll<HTMLAnchorElement>('a')];
+      const index = links.indexOf(event.target);
+      if (event.key === 'ArrowDown' && links[index + 1]) {
+        event.preventDefault();
+        links[index + 1].focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        (links[index - 1] ?? input).focus();
+      } else if (event.key === 'Escape') {
+        input.value = '';
+        showResults('');
+        input.focus();
+      }
+    });
+  }
+</script>

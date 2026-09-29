@@ -21,8 +21,12 @@ startDate: 2026-09-29
 # links:
 #   - label: "源码"
 #     url: "https://github.com/username/repository"
-# 可选：系列稳定标识符。
+# 可选：系列稳定标识符；相同标识符的公开内容会出现在同一系列页。
 # series: "personal-projects"
+# 可选：系列显示名称；不填时显示上面的 series 标识符。
+# seriesTitle: "个人项目"
+# 可选：系列内正整数顺序；不填的内容按发布日期从早到晚排列。
+# seriesOrder: 1
 # 可选：显式关联内容，collection 只能是 notes、thoughts、projects。
 # related:
 #   - collection: "notes"

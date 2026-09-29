@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://free-9d.github.io/personal-website/sitemap.xml

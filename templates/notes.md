@@ -13,8 +13,12 @@ draft: true
 tags: []
 # 可选：笔记的单一主分类。
 # category: "数据结构"
-# 可选：系列的稳定标识符；系列页面计划在 Phase 3 实现。
+# 可选：系列稳定标识符。相同标识符的公开内容会出现在同一系列页。
 # series: "data-structures"
+# 可选：系列显示名称；不填时显示上面的 series 标识符。
+# seriesTitle: "数据结构学习"
+# 可选：系列内正整数顺序；不填的文章按发布日期从早到晚排列。
+# seriesOrder: 1
 # 可选：指向所属项目的项目 id，例如 personal-website。
 # project: "personal-website"
 # 可选：显式关联内容。collection 只能是 notes、thoughts、projects；id 是内容目录 id。

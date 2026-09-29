@@ -1,0 +1,26 @@
+---
+import { getPublicContent, taxonomySlug } from '../../utils/public-content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TaxonomyEntryCard from '../../components/taxonomy/TaxonomyEntryCard.astro';
+
+export async function getStaticPaths() {
+  const content = await getPublicContent();
+  const tags = new Set(content.flatMap((item) => item.tags));
+  return [...tags].map((tag) => ({ params: { tag: taxonomySlug(tag) }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const content = (await getPublicContent()).filter((item) => item.tags.includes(tag));
+---
+
+<BaseLayout title={`标签：${tag}`} description={`浏览带有「${tag}」标签的公开内容。`}>
+  <header class="max-w-2xl">
+    <a class="text-sm text-[var(--accent)] no-underline hover:underline" href={`${import.meta.env.BASE_URL}tags/`}>← 所有标签</a>
+    <p class="mt-8 text-sm font-medium tracking-[0.18em] text-[var(--accent)]">TAG · 标签</p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{tag}</h1>
+    <p class="mt-5 text-lg leading-8 text-[var(--muted)]">共 {content.length} 篇公开内容</p>
+  </header>
+  <ul class="mt-10 grid list-none gap-5 p-0 sm:grid-cols-2">
+    {content.map((item) => <li><TaxonomyEntryCard item={item} /></li>)}
+  </ul>
+</BaseLayout>

@@ -34,7 +34,9 @@ src/content/notes/<英文短 slug>/index.md
 | `draft` | 可选，默认 `false` | 设为 `true` 时，笔记不会进入列表或生成详情页；准备公开时设为 `false`。 |
 | `tags` | 可选，默认空数组 | 可跨笔记、思考和项目使用的主题标签。 |
 | `category` | 可选 | 笔记的主要分类。标签适合描述多个主题，分类表示这篇笔记最主要的归属。 |
-| `series` | 可选 | 系列的稳定标识符；系列列表功能计划在后续阶段实现。 |
+| `series` | 可选 | 系列的稳定标识符；相同标识符的公开内容会归入同一系列页。 |
+| `seriesTitle` | 可选 | 系列的显示名称；留空时使用 `series` 标识符。 |
+| `seriesOrder` | 可选 | 系列内正整数顺序；未填写的文章排在显式顺序之后，并按发布日期从早到晚排列。 |
 | `project` | 可选 | 所属项目的内容 id，例如项目目录名 `personal-website`。 |
 | `related` | 可选，默认空数组 | 显式关联其他笔记、思考或项目，填写 collection 和内容 id。 |
 
@@ -74,6 +76,12 @@ category: "填写分类"
 
 # `series`：可选。填写稳定的系列标识符；暂时不需要系列时删除或注释。
 # series: "data-structures"
+
+# `seriesTitle`：可选。系列的可读名称；留空时网站显示 `series` 标识符。
+# seriesTitle: "数据结构学习"
+
+# `seriesOrder`：可选。系列内的正整数顺序；未填写的内容按发布日期从早到晚排列。
+# seriesOrder: 1
 
 # `project`：可选。填写所属项目在 src/content/projects 下的目录 id。
 # project: "personal-website"

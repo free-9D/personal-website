@@ -1,0 +1,16 @@
+---
+interface Term { label: string; href: string; count: number }
+interface Props { terms: Term[]; ariaLabel: string }
+const { terms, ariaLabel } = Astro.props;
+---
+
+<ul class="mt-8 flex flex-wrap gap-3" aria-label={ariaLabel}>
+  {terms.map((term) => (
+    <li>
+      <a class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-white/60 px-4 py-2 text-sm no-underline transition hover:border-[var(--accent)] hover:text-[var(--accent)]" href={term.href}>
+        <span>{term.label}</span>
+        <span class="text-xs text-[var(--muted)]" aria-label={`${term.count} 篇内容`}>{term.count}</span>
+      </a>
+    </li>
+  ))}
+</ul>

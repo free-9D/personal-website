@@ -8,6 +8,9 @@ tags:
   - "网站"
 status: "进行中"
 startDate: 2026-09-29
+series: "phase-3-content-discovery"
+seriesTitle: "Phase 3 内容发现验收系列"
+seriesOrder: 2
 links:
   - label: "示例演示链接（保留域名）"
     url: "https://example.com/demo"

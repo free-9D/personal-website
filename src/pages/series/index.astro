@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TaxonomyTermList from '../../components/taxonomy/TaxonomyTermList.astro';
+import { getPublicContent, taxonomySlug } from '../../utils/public-content';
+
+const content = await getPublicContent();
+const groups = new Map<string, { title: string; count: number }>();
+for (const item of content) {
+  if (!item.series) continue;
+  const group = groups.get(item.series) ?? { title: item.seriesTitle ?? item.series, count: 0 };
+  group.count += 1;
+  groups.set(item.series, group);
+}
+const terms = [...groups].sort(([a], [b]) => a.localeCompare(b, 'zh-CN')).map(([id, group]) => ({ label: group.title, count: group.count, href: `${import.meta.env.BASE_URL}series/${taxonomySlug(id)}/` }));
+---
+
+<BaseLayout title="系列" description="按系列顺序阅读相关的笔记、思考和项目。">
+  <header class="max-w-2xl">
+    <p class="text-sm font-medium tracking-[0.18em] text-[var(--accent)]">SERIES · 系列</p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">连续阅读</h1>
+    <p class="mt-5 text-lg leading-8 text-[var(--muted)]">把同一主题下的内容按顺序串起来阅读。</p>
+  </header>
+  {terms.length ? <TaxonomyTermList terms={terms} ariaLabel="所有系列" /> : <p class="mt-8 text-[var(--muted)]">暂时还没有公开系列。</p>}
+</BaseLayout>

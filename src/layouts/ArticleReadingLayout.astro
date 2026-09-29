@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { taxonomySlug } from '../utils/public-content';
 
 interface Heading { depth: number; slug: string; text: string }
 interface LinkCard { id: string; title: string; href: string }
@@ -38,11 +39,11 @@ const collectionName = (value: RelatedItem['collection']) => ({ notes: '笔记',
         <span>约 {readMinutes} 分钟阅读</span>
         {entry.data.category && <span>分类：{entry.data.category}</span>}
         {entry.data.kind && <span>类型：{entry.data.kind}</span>}
-        {entry.data.series && <span>系列：{entry.data.series}</span>}
+        {entry.data.series && <span>系列：<a class="text-[var(--accent)] underline" href={`${base}series/${taxonomySlug(entry.data.series)}/`}>{entry.data.seriesTitle ?? entry.data.series}</a></span>}
         {project && <a class="text-[var(--accent)] underline" href={`${base}projects/${project.id}/`}>项目：{project.title}</a>}
       </div>
       {entry.data.tags.length > 0 && <ul class="mt-5 flex flex-wrap gap-2" aria-label="标签">
-        {entry.data.tags.map((tag: string) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">{tag}</li>)}
+        {entry.data.tags.map((tag: string) => <li class="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]"><a class="no-underline hover:text-[var(--accent)]" href={`${base}tags/${taxonomySlug(tag)}/`}>{tag}</a></li>)}
       </ul>}
     </header>
 

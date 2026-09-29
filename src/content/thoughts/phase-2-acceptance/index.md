@@ -8,6 +8,9 @@ tags:
   - "内容模型"
 kind: "验收示例"
 project: "personal-website-acceptance"
+series: "phase-3-content-discovery"
+seriesTitle: "Phase 3 内容发现验收系列"
+seriesOrder: 1
 related:
   - collection: "notes"
     id: "orthogonal-list"

@@ -8,8 +8,12 @@ const commonSchema = z.object({
   updatedDate: z.date().optional(),
   draft: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
-  /** Stable series identifier; series pages are planned for Phase 3. */
+  /** Stable identifier used to group public entries on their series archive page. */
   series: z.string().min(1).optional(),
+  /** Optional human-readable series name; falls back to the series identifier. */
+  seriesTitle: z.string().min(1).optional(),
+  /** Optional explicit order within a series; omitted entries sort by publication date. */
+  seriesOrder: z.number().int().positive().optional(),
   /** Explicit cross-collection links use the collection name and content id. */
   related: z
     .array(

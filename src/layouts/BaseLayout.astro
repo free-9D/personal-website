@@ -9,12 +9,24 @@ interface Props {
 const { title, description = '个人知识与成长档案。' } = Astro.props;
 const pageTitle = title === '首页' ? '个人网站' : `${title} · 个人网站`;
 const path = (route: string) => `${import.meta.env.BASE_URL}${route.replace(/^\//, '')}`;
+const configuredBase = import.meta.env.BASE_URL;
+const basePath = configuredBase === '/' ? '/' : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`;
+const currentPath = Astro.url.pathname;
+const canonicalPath = basePath === '/'
+  ? currentPath
+  : currentPath === basePath.slice(0, -1)
+    ? basePath
+    : currentPath.startsWith(basePath)
+      ? currentPath
+      : `${basePath}${currentPath.replace(/^\/+/, '')}`;
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? 'https://example.com').href;
 const navigation = [
   { label: '首页', href: path('') },
   { label: '笔记', href: path('notes/') },
   { label: '思考', href: path('thoughts/') },
   { label: '项目', href: path('projects/') },
   { label: '关于', href: path('about/') },
+  { label: '搜索', href: path('search/') },
 ];
 ---
 
@@ -25,13 +37,24 @@ const navigation = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f7f8f4" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="个人网站 · 笔记与思考" href={path('rss.xml')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="个人网站" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-[var(--line)]">
-      <nav aria-label="主导航" class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <a class="font-semibold tracking-tight no-underline" href={path('')}>个人网站<span class="text-[var(--accent)]">.</span></a>
-        <div class="flex gap-6 text-sm text-[var(--muted)]">
+      <nav aria-label="主导航" class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-5">
+        <a class="shrink-0 font-semibold tracking-tight no-underline" href={path('')}>个人网站<span class="text-[var(--accent)]">.</span></a>
+        <div class="flex flex-wrap justify-end gap-x-3 gap-y-2 text-xs text-[var(--muted)] sm:gap-6 sm:text-sm">
           {navigation.map((item) => <a class="hover:text-[var(--ink)]" href={item.href}>{item.label}</a>)}
         </div>
       </nav>
