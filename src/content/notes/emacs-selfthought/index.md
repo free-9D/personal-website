@@ -37,7 +37,7 @@ M-y 回滚剪贴板
 C-M-s 使用regexp进行搜索
 M-x replace-regexp 使用regexp来进行替换操作
 M-x re-building 测试你的regexp式子
-M-x M-q 将原本只读的dired模式变成可以编辑的dired模式
+C-x C-q 将原本只读的dired模式变成可以编辑的dired模式
 ```
 
 ## 主模式
