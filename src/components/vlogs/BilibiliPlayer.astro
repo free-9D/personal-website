@@ -1,0 +1,33 @@
+---
+interface Props {
+  bvid: string;
+  page?: number;
+  title: string;
+}
+
+const { bvid, page, title } = Astro.props;
+// Only accept a BV identifier. Never accept arbitrary URLs or iframe markup from content.
+const safeBvid = /^BV[0-9A-Za-z]{10}$/.test(bvid) ? bvid : undefined;
+const safePage = Number.isSafeInteger(page) && (page ?? 0) > 0 ? page : undefined;
+const embedUrl = safeBvid
+  ? `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(safeBvid)}${safePage ? `&p=${safePage}` : ''}&autoplay=0`
+  : undefined;
+---
+
+{embedUrl ? (
+  <div class="aspect-video overflow-hidden rounded-2xl border border-[var(--line)] bg-black shadow-sm">
+    <iframe
+      class="h-full w-full"
+      src={embedUrl}
+      title={`哔哩哔哩视频：${title}`}
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+) : (
+  <aside class="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950" role="status">
+    视频标识格式不正确，暂时无法嵌入播放器。
+  </aside>
+)}

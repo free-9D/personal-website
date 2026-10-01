@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const updates = await getCollection('updates', ({ data }) => !data.draft);
+  return updates.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, pubDate, updatedDate, tags, version, category, changes } = entry.data;
+const base = import.meta.env.BASE_URL;
+const dateLabel = (date: Date) => new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric', month: 'long', day: 'numeric',
+}).format(date);
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="mx-auto max-w-3xl">
+    <a class="text-sm font-medium text-[var(--accent)] no-underline hover:underline" href={`${base}updates/`}>← 全部更新</a>
+    <header class="mt-8 border-b border-[var(--line)] pb-8">
+      <p class="text-sm text-[var(--muted)]"><time datetime={pubDate.toISOString()}>{dateLabel(pubDate)}</time></p>
+      <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+      <p class="mt-5 text-lg leading-8 text-[var(--muted)]">{description}</p>
+      <div class="mt-5 flex flex-wrap gap-2 text-sm">
+        {version && <span class="rounded-full bg-[var(--paper)] px-3 py-1 font-medium">{version}</span>}
+        {category && <span class="rounded-full border border-[var(--line)] px-3 py-1 text-[var(--muted)]">{category}</span>}
+        {tags.map((tag) => <span class="rounded-full border border-[var(--line)] px-3 py-1 text-[var(--muted)]">#{tag}</span>)}
+      </div>
+      {updatedDate && <p class="mt-4 text-sm text-[var(--muted)]">更新于 <time datetime={updatedDate.toISOString()}>{dateLabel(updatedDate)}</time></p>}
+    </header>
+
+    {changes.length > 0 && (
+      <section class="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-6" aria-labelledby="change-summary">
+        <h2 id="change-summary" class="text-lg font-semibold">本次变更</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 leading-7 text-[var(--muted)]">
+          {changes.map((change) => <li>{change}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <div class="prose-content mt-10">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

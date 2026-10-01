@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'updates'>;
+  href: string;
+}
+
+const { entry, href } = Astro.props;
+const { title, description, pubDate, version, category, changes } = entry.data;
+const dateLabel = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(pubDate);
+---
+
+<article class="relative h-full rounded-2xl border border-[var(--line)] bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-sm">
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--muted)]">
+    <time datetime={pubDate.toISOString()}>{dateLabel}</time>
+    {version && <span class="rounded-full bg-[var(--paper)] px-2.5 py-1 font-medium text-[var(--ink)]">{version}</span>}
+    {category && <span>{category}</span>}
+  </div>
+  <h2 class="mt-4 text-xl font-semibold leading-snug tracking-tight">
+    <a class="no-underline after:absolute after:inset-0 hover:text-[var(--accent)]" href={href}>{title}</a>
+  </h2>
+  <p class="mt-3 line-clamp-3 leading-7 text-[var(--muted)]">{description}</p>
+  {changes.length > 0 && (
+    <ul class="relative mt-4 space-y-1.5 pl-5 text-sm leading-6 text-[var(--muted)]">
+      {changes.slice(0, 3).map((change) => <li class="list-disc">{change}</li>)}
+    </ul>
+  )}
+</article>

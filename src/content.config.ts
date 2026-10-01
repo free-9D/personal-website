@@ -25,6 +25,16 @@ const commonSchema = z.object({
     .default([]),
 });
 
+/** Shared publishing fields for Phase 4 collections without article taxonomy. */
+const datedEntrySchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  pubDate: z.date(),
+  updatedDate: z.date().optional(),
+  draft: z.boolean().default(false),
+  tags: z.array(z.string()).default([]),
+});
+
 /** Keep folder/index.md entries addressable by their folder name. */
 function contentId({ entry }: { entry: string }): string {
   const id = entry.replace(/\\/g, "/").replace(/\/index\.(?:md|mdx)$/i, "");
@@ -78,4 +88,36 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { notes, thoughts, projects };
+const vlogs = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/vlogs",
+    generateId: contentId,
+  }),
+  schema: datedEntrySchema.extend({
+    /** Phase 4 launches with Bilibili; keep the identifier explicit for routing/embed logic. */
+    platform: z.literal("bilibili").default("bilibili"),
+    /** Bilibili video ID (BV identifier), used by the page to construct links or embeds. */
+    bvid: z.string().min(1),
+    /** Optional Bilibili page number for multi-part videos. */
+    page: z.number().int().positive().optional(),
+  }),
+});
+
+const updates = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/updates",
+    generateId: contentId,
+  }),
+  schema: datedEntrySchema.extend({
+    /** Optional release/version label, e.g. v1.0. */
+    version: z.string().min(1).optional(),
+    /** Optional grouping for an update entry. */
+    category: z.string().min(1).optional(),
+    /** Concise list of changes shown on the update record. */
+    changes: z.array(z.string().min(1)).default([]),
+  }),
+});
+
+export const collections = { notes, thoughts, projects, vlogs, updates };

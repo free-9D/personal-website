@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
 import { getPublicContent, taxonomySlug } from '../utils/public-content';
 
 export const prerender = true;
@@ -13,7 +14,11 @@ const escapeXml = (value: string) => value
 export const GET: APIRoute = async () => {
   const site = import.meta.env.SITE;
   if (!site) throw new Error('Astro site must be configured to generate the sitemap.');
-  const content = await getPublicContent();
+  const [content, vlogs, updates] = await Promise.all([
+    getPublicContent(),
+    getCollection('vlogs', ({ data }) => !data.draft),
+    getCollection('updates', ({ data }) => !data.draft),
+  ]);
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   const routes = new Set([
     base,
@@ -21,9 +26,13 @@ export const GET: APIRoute = async () => {
     `${base}notes/`,
     `${base}thoughts/`,
     `${base}projects/`,
+    `${base}vlogs/`,
+    `${base}updates/`,
     `${base}tags/`,
     `${base}series/`,
     ...content.map(({ url }) => url),
+    ...vlogs.map(({ id }) => `${base}vlogs/${id}/`),
+    ...updates.map(({ id }) => `${base}updates/${id}/`),
     ...[...new Set(content.flatMap(({ tags }) => tags))].map((tag) => `${base}tags/${taxonomySlug(tag)}/`),
     ...[...new Set(content.flatMap(({ series }) => series ? [series] : []))].map((series) => `${base}series/${taxonomySlug(series)}/`),
   ]);
