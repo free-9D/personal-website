@@ -1,34 +1,39 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = '个人知识与成长档案。' } = Astro.props;
-const pageTitle = title === '首页' ? '个人网站' : `${title} · 个人网站`;
-const path = (route: string) => `${import.meta.env.BASE_URL}${route.replace(/^\//, '')}`;
+const { title, description = "个人知识与成长档案。" } = Astro.props;
+const pageTitle = title === "首页" ? "个人网站" : `${title} · 个人网站`;
+const path = (route: string) =>
+  `${import.meta.env.BASE_URL}${route.replace(/^\//, "")}`;
 const configuredBase = import.meta.env.BASE_URL;
-const basePath = configuredBase === '/' ? '/' : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`;
+const basePath =
+  configuredBase === "/" ? "/" : (
+    `/${configuredBase.replace(/^\/+|\/+$/g, "")}/`
+  );
 const currentPath = Astro.url.pathname;
-const canonicalPath = basePath === '/'
-  ? currentPath
-  : currentPath === basePath.slice(0, -1)
-    ? basePath
-    : currentPath.startsWith(basePath)
-      ? currentPath
-      : `${basePath}${currentPath.replace(/^\/+/, '')}`;
-const canonicalUrl = new URL(canonicalPath, Astro.site ?? 'https://example.com').href;
+const canonicalPath =
+  basePath === "/" ? currentPath
+  : currentPath === basePath.slice(0, -1) ? basePath
+  : currentPath.startsWith(basePath) ? currentPath
+  : `${basePath}${currentPath.replace(/^\/+/, "")}`;
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? "https://example.com")
+  .href;
 const navigation = [
-  { label: '首页', href: path('') },
-  { label: '笔记', href: path('notes/') },
-  { label: '思考', href: path('thoughts/') },
-  { label: '项目', href: path('projects/') },
-  { label: 'Vlog', href: path('vlogs/') },
-  { label: '更新记录', href: path('updates/') },
-  { label: '关于', href: path('about/') },
-  { label: '搜索', href: path('search/') },
+  { label: "首页", href: path("") },
+  { label: "笔记", href: path("notes/") },
+  { label: "思考", href: path("thoughts/") },
+  { label: "项目", href: path("projects/") },
+  { label: "Vlog", href: path("vlogs/") },
+  { label: "更新记录", href: path("updates/") },
+  { label: "Timeline", href: path("timeline/") },
+  { label: "now", href: path("now/") },
+  { label: "关于", href: path("about/") },
+  { label: "搜索", href: path("search/") },
 ];
 ---
 
@@ -36,28 +41,87 @@ const navigation = [
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#f7f8f4" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" type="application/rss+xml" title="个人网站 · 笔记与思考" href={path('rss.xml')} />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="个人网站" />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="description"
+      content={description}
+    />
+    <meta
+      name="theme-color"
+      content="#f7f8f4"
+    />
+    <link
+      rel="canonical"
+      href={canonicalUrl}
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="个人网站 · 笔记与思考"
+      href={path("rss.xml")}
+    />
+    <meta
+      property="og:type"
+      content="website"
+    />
+    <meta
+      property="og:locale"
+      content="zh_CN"
+    />
+    <meta
+      property="og:site_name"
+      content="个人网站"
+    />
+    <meta
+      property="og:title"
+      content={pageTitle}
+    />
+    <meta
+      property="og:description"
+      content={description}
+    />
+    <meta
+      property="og:url"
+      content={canonicalUrl}
+    />
+    <meta
+      name="twitter:card"
+      content="summary"
+    />
+    <meta
+      name="twitter:title"
+      content={pageTitle}
+    />
+    <meta
+      name="twitter:description"
+      content={description}
+    />
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-[var(--line)]">
-      <nav aria-label="主导航" class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-5">
-        <a class="shrink-0 font-semibold tracking-tight no-underline" href={path('')}>个人网站<span class="text-[var(--accent)]">.</span></a>
-        <div class="flex flex-wrap justify-end gap-x-3 gap-y-2 text-xs text-[var(--muted)] sm:gap-6 sm:text-sm">
-          {navigation.map((item) => <a class="hover:text-[var(--ink)]" href={item.href}>{item.label}</a>)}
+      <nav
+        aria-label="主导航"
+        class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-5">
+        <a
+          class="shrink-0 font-semibold tracking-tight no-underline"
+          href={path("")}
+          >个人网站<span class="text-[var(--accent)]">.</span></a
+        >
+        <div
+          class="flex flex-wrap justify-end gap-x-3 gap-y-2 text-xs text-[var(--muted)] sm:gap-6 sm:text-sm">
+          {
+            navigation.map(item => (
+              <a
+                class="hover:text-[var(--ink)]"
+                href={item.href}>
+                {item.label}
+              </a>
+            ))
+          }
         </div>
       </nav>
     </header>
@@ -65,7 +129,8 @@ const navigation = [
       <slot />
     </main>
     <footer class="border-t border-[var(--line)]">
-      <div class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+      <div
+        class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
         <span>记录学习、思考与正在做的事。</span>
         <span>© {new Date().getFullYear()} · 用心构建</span>
       </div>
@@ -76,31 +141,40 @@ const navigation = [
       type="button"
       aria-label="回到顶部"
       title="回到顶部"
-      hidden
-    >
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m5 12 7-7 7 7" />
-        <path d="M12 19V5" />
+      hidden>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="m5 12 7-7 7 7"></path>
+        <path d="M12 19V5"></path>
       </svg>
     </button>
   </body>
 </html>
 
 <script>
-  const backToTop = document.querySelector<HTMLButtonElement>('#back-to-top');
+  const backToTop = document.querySelector<HTMLButtonElement>("#back-to-top");
 
   if (backToTop) {
     const updateVisibility = () => {
       backToTop.hidden = window.scrollY < 400;
     };
 
-    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener("scroll", updateVisibility, { passive: true });
     updateVisibility();
 
-    backToTop.addEventListener('click', () => {
+    backToTop.addEventListener("click", () => {
       window.scrollTo({
         top: 0,
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+        behavior:
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
+            "instant"
+          : "smooth",
       });
     });
   }

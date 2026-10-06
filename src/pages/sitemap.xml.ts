@@ -28,6 +28,7 @@ export const GET: APIRoute = async () => {
     `${base}projects/`,
     `${base}vlogs/`,
     `${base}updates/`,
+    `${base}timeline/`,
     `${base}tags/`,
     `${base}series/`,
     ...content.map(({ url }) => url),

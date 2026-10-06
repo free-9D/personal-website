@@ -120,4 +120,21 @@ const updates = defineCollection({
   }),
 });
 
-export const collections = { notes, thoughts, projects, vlogs, updates };
+const timeline = defineCollection({
+  loader: glob({
+    pattern: "**/*.json",
+    base: "./src/content/timeline",
+  }),
+  schema: z.object({
+    year: z.number().int().min(1900).max(9999),
+    events: z.array(
+      z.object({
+        title: z.string().min(1),
+        date: z.string().optional(),
+        description: z.string().optional(),
+      }),
+    ),
+  }),
+});
+
+export const collections = { notes, thoughts, projects, vlogs, updates, timeline };

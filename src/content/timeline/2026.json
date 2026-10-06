@@ -1,0 +1,10 @@
+{
+  "year": 2026,
+  "events": [
+    { "title": "开始准备考研" },
+    { "title": "系统学习 408" },
+    { "title": "开始深入 Linux / Emacs" },
+    { "title": "开始研究 AI-assisted development" },
+    { "title": "开始建设 personal-website" }
+  ]
+}

@@ -1,0 +1,225 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const currentYear = new Date().getFullYear();
+const years = (await getCollection("timeline"))
+  .map(({ data }) => ({
+    ...data,
+    hasEvents: data.events.length > 0,
+    displayEvents:
+      data.events.length > 0 ?
+        data.events
+      : [{ title: "这一年还没有记录，等它发生后再回来补上。" }],
+  }))
+  .sort((a, b) => b.year - a.year);
+---
+
+<BaseLayout
+  title="Timeline"
+  description="一份持续更新的个人历史记录：记录我是怎么一步步走到今天的。">
+  <article class="max-w-3xl">
+    <header class="max-w-2xl">
+      <p
+        class="mb-4 text-sm font-medium tracking-[0.18em] text-[var(--accent)] uppercase">
+        Timeline · 个人历史
+      </p>
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">
+        我是怎么走到今天的？
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-[var(--muted)]">
+        这不是一份简历，而是一份持续书写的个人历史记录。它收下那些当时看似普通、多年后却能帮我记起“我是怎么成为现在这个人的”时刻。
+      </p>
+    </header>
+
+    <div class="timeline-years mt-14">
+      {
+        years.map(({ year, displayEvents, hasEvents }, yearIndex) => (
+          <section
+            class:list={[
+              "timeline-year",
+              yearIndex % 2 === 0 ?
+                "timeline-year--right"
+              : "timeline-year--left",
+              year === currentYear && "timeline-year--current",
+            ]}
+            aria-labelledby={`year-${year}`}>
+            <h2
+              id={`year-${year}`}
+              class="timeline-year-label">
+              <span>{year}</span>
+            </h2>
+            <div class="timeline-track">
+              <span
+                class="timeline-spine"
+                aria-hidden="true"
+              />
+              <ul
+                class="timeline-events"
+                aria-label={`${year} 年的事件列表`}>
+                {displayEvents.map(event => (
+                  <li
+                    class:list={[
+                      "timeline-event",
+                      !hasEvents && "timeline-event--empty",
+                    ]}>
+                    {event.date && (
+                      <time class="timeline-event-date">{event.date}</time>
+                    )}
+                    <h3>{event.title}</h3>
+                    {event.description && <p>{event.description}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <p
+      class="mt-16 border-t border-[var(--line)] pt-6 text-sm leading-6 text-[var(--muted)]">
+      时间会继续往前，这条时间线也会继续长出来。
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .timeline-years {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .timeline-year-label {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0 auto 1.25rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 9999px;
+    background: #8b8b8b;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+  }
+
+  .timeline-year--current .timeline-year-label {
+    background: #e65b24;
+  }
+
+  .timeline-track {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2px minmax(0, 1fr);
+  }
+
+  .timeline-spine {
+    grid-column: 2;
+    grid-row: 1;
+    background: #a1a1a1;
+  }
+
+  .timeline-year--current .timeline-spine {
+    background: #e65b24;
+  }
+
+  .timeline-events {
+    grid-column: 3;
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+    list-style: none;
+  }
+
+  .timeline-year--left .timeline-events {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0 1.5rem 0 0;
+    text-align: right;
+  }
+
+  .timeline-event {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .timeline-event:last-child {
+    border-bottom: 0;
+  }
+
+  .timeline-event h3 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 500;
+  }
+
+  .timeline-event p {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .timeline-event-date {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .timeline-event--empty {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  @keyframes status-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(167 243 181 / 45%);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 5px rgb(167 243 181 / 0%);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .timeline-years {
+      gap: 1.5rem;
+    }
+
+    .timeline-year-label {
+      margin-left: 0;
+    }
+
+    .timeline-track {
+      grid-template-columns: 2px minmax(0, 1fr);
+      column-gap: 1rem;
+    }
+
+    .timeline-spine {
+      grid-column: 1;
+    }
+
+    .timeline-events {
+      grid-column: 2;
+      padding-left: 0;
+      text-align: left;
+    }
+
+    .timeline-year--left .timeline-events {
+      grid-column: 2;
+      padding: 0;
+    }
+
+    .timeline-event {
+      padding: 0.6rem 0;
+      font-size: 0.9rem;
+    }
+  }
+</style>

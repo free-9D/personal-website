@@ -13,9 +13,14 @@ const base = import.meta.env.BASE_URL;
       <a class="rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium no-underline transition hover:border-[var(--accent)]" href="https://github.com/free-9D">GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </section>
-  <section class="mt-20 grid gap-4 border-t border-[var(--line)] pt-8 sm:grid-cols-3" aria-label="站点内容">
+  <section class="mt-20 grid gap-4 border-t border-[var(--line)] pt-8 sm:grid-cols-2 lg:grid-cols-3" aria-label="站点内容">
     <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}notes/`}><span class="text-sm text-[var(--muted)]">01 / 笔记</span><p class="mt-2 font-medium">整理值得复用的知识 <span aria-hidden="true">↗</span></p></a>
     <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}thoughts/`}><span class="text-sm text-[var(--muted)]">02 / 思考</span><p class="mt-2 font-medium">留下过程中的观察 <span aria-hidden="true">↗</span></p></a>
     <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}projects/`}><span class="text-sm text-[var(--muted)]">03 / 项目</span><p class="mt-2 font-medium">记录从想法到实现 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}vlogs/`}><span class="text-sm text-[var(--muted)]">04 / Vlog</span><p class="mt-2 font-medium">用影像记录生活片段 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}updates/`}><span class="text-sm text-[var(--muted)]">05 / 更新记录</span><p class="mt-2 font-medium">看看最近在做什么 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}about/`}><span class="text-sm text-[var(--muted)]">06 / 关于</span><p class="mt-2 font-medium">了解这个网站和我 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}now/`}><span class="text-sm text-[var(--muted)]">07 / now</span><p class="mt-2 font-medium">我当下关注的那些 <span aria-hidden="true">↗</span></p></a>
+    <a class="rounded-xl p-4 no-underline transition hover:bg-white" href={`${base}timeline/`}><span class="text-sm text-[var(--muted)]">08 / Timeline</span><p class="mt-2 font-medium">记录我是怎么走到今天的 <span aria-hidden="true">↗</span></p></a>
   </section>
 </BaseLayout>
