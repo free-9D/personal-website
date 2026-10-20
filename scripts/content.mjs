@@ -155,7 +155,7 @@ async function openRecord(record) {
 
 async function operateRecord(record) {
   print(`\n已选择：${record.title} [${typeLabels[record.type]}]`);
-  print('1) 打开预览并在 VS Code 打开源文件  2) 只打开预览  3) 只打开源文件  4) 删除文章  5) 返回');
+  print('1) 打开预览并编辑源文件  2) 只打开预览  3) 编辑源文件  4) 删除文章  5) 返回');
   const action = await prompt('请选择操作', '1');
   if (action === '1') return openRecord(record);
   if (action === '2') {
@@ -249,9 +249,14 @@ async function main() {
   if (command === 'new') return await createArticleWithFollowUp();
   const records = await scanContent({ root });
   if (command === 'tree' || command === 'list') return print(renderTree(records));
-  if (command === 'search') {
+  if (command === 'search' || command === '--search') {
     const query = args.join(' ') || await prompt('搜索关键词');
-    return printRecords(filterContent(records, { query }));
+    const results = filterContent(records, { query });
+    printRecords(results);
+    if (!results.length) return;
+    const selected = await chooseRecord(results);
+    if (selected) await operateRecord(selected);
+    return;
   }
   if (command === 'open') {
     const results = args.length ? filterContent(records, { query: args.join(' ') }) : await filterRecords(records);
@@ -259,7 +264,7 @@ async function main() {
     if (selected) await operateRecord(selected);
     return;
   }
-  print('用法：npm run content [tree|list|search <关键词>|open [关键词]|new]');
+  print('用法：npm run content [tree|list|search <关键词>|--search <关键词>|open [关键词]|new]');
   process.exitCode = 1;
 }
 

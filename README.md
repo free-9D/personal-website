@@ -12,7 +12,7 @@ Astro static site for GitHub Pages, built with TypeScript, Tailwind CSS, Markdow
 ## Content CLI
 
 - Run `npm run content` for the interactive content browser and creation wizard.
-- Run `npm run content -- tree` to print the content tree, `npm run content -- search "关键词"` to find entries, or `npm run content -- new` to create one.
+- Run `npm run content -- tree` to print the content tree, `npm run content -- search "关键词"` to find and select entries, or `npm run content -- new` to create one. Search results let you open a preview, edit the source file in VS Code, or delete the article after confirmation.
 - Select an entry from the browser to open its local Astro preview, its source file in VS Code, or both. Opening a preview starts the development server on port 4321 if it is not already running.
 - The selected-entry menu can delete an article and its content folder after you confirm by typing `DELETE`.
 - The editor action uses the `code` command. Install or enable the VS Code command-line launcher and make sure it is on `PATH`.
