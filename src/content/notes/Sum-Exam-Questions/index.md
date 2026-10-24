@@ -34,7 +34,7 @@ related:
     id: "Summary-of-Physics-Formulas"
 ---
 
-## 高数做题方法总结
+## 高数做题方法总结⭐
 
 1. 要熟练运用奇偶性、对称性来化简式子或者排除错误选项。
 2. 对于选择题，要学会使用举例子或者带特殊值来辅助解题。
@@ -337,6 +337,26 @@ $$
 - 自反：$A\simeq A$（取$P=E$）
 - 对称：$A\simeq B \implies B\simeq A$（$B=(P^{-1})^T A P^{-1}$）
 - 传递：$A\simeq B,\;B\simeq C \implies A\simeq C$
+
+## 定积分的定义的考题
+
+定积分的定义含有一定的放缩思想，因为它本质上是对一个[0,1]的区间进行n次划分，取$\frac{1}{n}$大小的区间的一个点，看作是尽似点进行求值，也就是区间内的点$ x$，$左边界 \le x \le 右边界$。
+
+![定积分定义的几何划分](./assets/image3.png)
+
+> 2021年真题，题7
+
+## 二次题题目的坑点
+
+当你在用配方法来进行标准化二次型时，一定要验证一下配方后的矩阵P是不是可逆阵
+
+> 错题，2021年真题，题8
+
+## 三阶齐次方程的解（易忘记点）
+
+[link](/personal-website/notes/steps-for-solving-third-order-linear-differential-equations-with-constant-coefficients/)
+
+
 
 ## 结尾
 
