@@ -66,6 +66,8 @@ $$
 极坐标或参数形式：r=2R\sin\theta
 $$
 
+## 摆线
+
 ![摆线](./assets/image4.png)
 
 $$
@@ -80,6 +82,8 @@ y = a(1-\cos t)
 \end{cases}
 $$
 
+## 心形线
+
 ![心形线](./assets/image5.png)
 
 $$
@@ -89,6 +93,8 @@ $$
 $$
 极坐标或参数形式：r=a(1+\cos\theta)
 $$
+
+## 双纽线
 
 ![双纽线](./assets/image6.png)
 
@@ -100,10 +106,12 @@ $$
 极坐标或参数形式：r^2=a^2\cos2\theta
 $$
 
+## 星形线
+
 ![星形线](./assets/image7.png)
 
 $$
-直角坐标形式：(x^{\frac{2}{3}}+y^\frac{2}{3})^2=a^{\frac{2}{3}}
+直角坐标形式：x^{\frac{2}{3}}+y^\frac{2}{3}=a^{\frac{2}{3}}
 $$
 
 $$
