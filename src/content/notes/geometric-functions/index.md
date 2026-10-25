@@ -34,4 +34,82 @@ related:
     id: "Summary-of-Physics-Formulas"
 ---
 
-## 还未总结好，待更新
+## 圆
+
+![圆1](./assets/image1.png)
+
+$$
+直角坐标形式：x^2+y^2=R^2
+$$
+
+$$
+极坐标或参数形式：r=R
+$$
+
+![圆2](./assets/image2.png)
+
+$$
+直角坐标形式：x^2+y^2=2Rx
+$$
+
+$$
+极坐标或参数形式：r=2R\cos\theta
+$$
+
+![圆3](./assets/image3.png)
+
+$$
+直角坐标形式：x^2+y^2=2Ry
+$$
+
+$$
+极坐标或参数形式：r=2R\sin\theta
+$$
+
+![摆线](./assets/image4.png)
+
+$$
+直角坐标形式：无
+$$
+
+$$
+极坐标或参数形式：
+\begin{cases}
+x = a(t-\sin t), \\
+y = a(1-\cos t)
+\end{cases}
+$$
+
+![心形线](./assets/image5.png)
+
+$$
+直角坐标形式：无
+$$
+
+$$
+极坐标或参数形式：r=a(1+\cos\theta)
+$$
+
+![双纽线](./assets/image6.png)
+
+$$
+直角坐标形式：(x^2+y^2)^2=a^2(x^2-y^2)
+$$
+
+$$
+极坐标或参数形式：r^2=a^2\cos2\theta
+$$
+
+![星形线](./assets/image7.png)
+
+$$
+直角坐标形式：(x^{\frac{2}{3}}+y^\frac{2}{3})^2=a^{\frac{2}{3}}
+$$
+
+$$
+极坐标或参数形式：
+\begin{cases}
+x = a\cos^3 t, \\
+y = a\sin^3 t
+\end{cases}
+$$
