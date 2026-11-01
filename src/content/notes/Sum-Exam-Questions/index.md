@@ -356,7 +356,125 @@ $$
 
 [link](/personal-website/notes/steps-for-solving-third-order-linear-differential-equations-with-constant-coefficients/)
 
+## 等价无穷小加深理解的好题
 
+当$x \to 0$ 时，$\alpha(x),\beta(x)$ 是非零无穷小量，给出以下四个命题，其中所有正确的序号是（）
+
+①若$\alpha(x)\sim\beta(x)$，则$\alpha^{2}(x)\sim\beta^{2}(x)$
+
+②若$\alpha^{2}(x)\sim\beta^{2}(x)$，则$\alpha(x)\sim\beta(x)$
+
+③若$\alpha(x)\sim\beta(x)$，则$\alpha(x)-\beta(x)=o(\alpha(x))$
+
+④若$\alpha(x)-\beta(x)=o(\alpha(x))$，则$\alpha(x)\sim\beta(x)$
+
+(A)①② (B)①④ (C)①③④ (D)②③④
+
+✅ 答案：**C**
+
+---
+
+**简要解析**
+
+- ①：$\lim \dfrac{\alpha^2}{\beta^2}=\left(\lim\dfrac{\alpha}{\beta}\right)^2=1^2=1$，正确。
+- ②：反例$\alpha=x,\beta=-x$，$\alpha^2\sim\beta^2$，但$\dfrac{\alpha}{\beta}\to -1$，不等价，错误。
+- ③：$\lim\dfrac{\alpha-\beta}{\alpha}=\lim\left(1-\dfrac{\beta}{\alpha}\right)=0$，即$\alpha-\beta=o(\alpha)$，正确。
+- ④：$\lim\dfrac{\alpha-\beta}{\alpha}=0 \Rightarrow 1-\lim\dfrac{\beta}{\alpha}=0 \Rightarrow \lim\dfrac{\beta}{\alpha}=1$，等价，正确。
+
+> 真题位置，2022年数二真题，选择题，题1
+
+## 导数定义与保号性理解的好题
+
+> 设函数 $f(x)$ 在 $x=x_0$ 处有二阶导数，则（）
+> 
+> (A) 当 $f'(x_0)>0$ 时，$f(x)$ 在 $x_0$ 的某邻域内单调增加
+> 
+> (B) 当 $f'(x_0)>0$ 时，$f(x)$ 在 $x_0$ 的某邻域内单调增加
+> 
+> (C) 当 $f''(x_0)>0$ 时，$f(x)$ 在 $x_0$ 的某邻域内是凹函数
+> 
+> (D) 当 $f''(x_0)>0$ 时，$f(x)$ 在 $x_0$ 的某邻域内是凹函数
+
+✅ **答案：B**（原题 A、B 文字就是这个设置，核心考点：**导数定义 + 保号性**）
+
+**解析**
+
+已知 $f(x)$ 在 $x_0$ 二阶可导，只能保证：
+$f'(x)$ 在 $x_0$ **存在**，**不能保证 $f'(x)$ 在 $x_0$ 连续**。
+$f'(x_0)=\lim_{x\to x_0}\frac{f(x)-f(x_0)}{x-x_0}>0$
+由**极限的保号性**：存在 $\delta>0$，当 $0<|x-x_0|<\delta$ 时，
+$\frac{f(x)-f(x_0)}{x-x_0}>0$
+
+- $x\in(x_0,x_0+\delta)\Rightarrow f(x)>f(x_0)$
+- $x\in(x_0-\delta,x_0)\Rightarrow f(x)<f(x_0)$
+也就是：在这个邻域内，$f(x)$ 在 $x_0$ 附近单调递增。
+
+❌ 易错坑（C、D 错因）：
+$f''(x_0)>0$ 只是单点二阶导大于 0，**不能推出二阶导在邻域内恒正**，无法判定邻域凹凸；
+如果条件改成「在 $x_0$ 邻域二阶可导且 $f''(x_0)>0$」，才可以由保号性判断凹凸。
+
+> 
+> 一句话结论：**一阶导单点存在且 > 0 ⇒ 局部单调增；二阶导单点 > 0，推不出局部凹**
+
+> 真题位置，2022年真题，选择题，题3
+
+## 极限存在性理解的好题推荐
+
+> 已知数列 $\{x_n\}$，其中 $\boldsymbol{-\dfrac{\pi}{2}\le x_n \le \dfrac{\pi}{2}}$，则（）
+
+- (A) 当 $\lim\limits_{n\to\infty}\cos(\sin x_n)$ 存在时，$\lim\limits_{n\to\infty}x_n$ 存在
+- (B) 当 $\lim\limits_{n\to\infty}\sin(\cos x_n)$ 存在时，$\lim\limits_{n\to\infty}x_n$ 存在
+- (C) 当 $\lim\limits_{n\to\infty}\cos(\sin x_n)$ 存在时，$\lim\limits_{n\to\infty}\sin x_n$ 存在，$\lim\limits_{n\to\infty}x_n$ 不一定存在
+- (D) 当 $\lim\limits_{n\to\infty}\sin(\cos x_n)$ 存在时，$\lim\limits_{n\to\infty}\cos x_n$ 存在，$\lim\limits_{n\to\infty}x_n$ 不一定存在
+
+✅ **答案：D**
+
+---
+
+**简要解析**
+
+1. 先看 $\boldsymbol{\sin(\cos x_n)}$：
+$y=\sin t$ 在 $t\in[-1,1]$ 上**严格单调**，
+若 $\sin(\cos x_n)$ 极限存在 $\implies \cos x_n$ 极限一定存在；
+但 $\cos x$ 是偶函数：$\cos a=\cos(-a)$。
+可以构造子列：$x_{2k}=a,\ x_{2k+1}=-a\ (a\neq0)$，
+此时 $\cos x_n$ 收敛，但 $x_n$ 在 $a,-a$ 来回跳，$x_n$ 极限不存在 → D 正确，B 错误。
+1. 再看 $\boldsymbol{\cos(\sin x_n)}$：
+$y=\cos t$ 在 $t\in[-1,1]$ 是偶函数，**不是严格单调**。
+取 $\sin x_n$ 交替取 $t_0,-t_0$，$\cos(\sin x_n)$ 不变，但是 $\sin x_n$ 都不一定收敛，C 错；
+进一步可以构造让 $x_n$ 震荡，A 错。
+
+## 极坐标面积公式
+
+1. **基础公式（曲线 $r=r(\theta)$，$\alpha\le\theta\le\beta$）**
+
+$\boldsymbol{S=\frac12\int_{\alpha}^{\beta} r^2(\theta)\,d\theta}$
+
+> 
+> 原理：极坐标下微元是扇形微元，$\displaystyle dS=\frac12 r^2 d\theta$，不是 $\frac12 r dr d\theta$（后者是二重积分微元）
+
+2. **两条极坐标曲线之间的面积（外曲线 $r_2(\theta)$，内曲线 $r_1(\theta)$）**
+
+$\boldsymbol{S=\frac12\int_{\alpha}^{\beta}\big[r_2^2(\theta)-r_1^2(\theta)\big]d\theta}$
+
+3. **常用经典图形（直接背）**
+
+- 圆：$r=R$，一圈 $\theta\in[0,2\pi]$
+$S=\frac12\int_{0}^{2\pi}R^2 d\theta=\pi R^2$
+- 心形线：$r=a(1+\cos\theta)$
+$S=\frac12\int_{0}^{2\pi}a^2(1+\cos\theta)^2 d\theta=\boldsymbol{\frac32\pi a^2}$
+- 双纽线：$r^2=a^2\cos2\theta$
+
+> 
+> 左右两叶，$\theta\in[-\tfrac{\pi}{4},\tfrac{\pi}{4}],[\tfrac{3\pi}{4},\tfrac{5\pi}{4}]$
+> $S=4\cdot \frac12\int_{0}^{\pi/4} a^2\cos2\theta\,d\theta=\boldsymbol{a^2}$
+
+- 三叶玫瑰线：$r=a\cos3\theta$
+$S=\frac12\int_{-\pi/6}^{\pi/6}a^2\cos^23\theta d\theta \cdot 3=\boldsymbol{\frac14\pi a^2}$
+
+## 极坐标定界法
+
+[link](/personal-website/notes/core-guide-to-the-polar-coordinate-delimitation-method/)
 
 ## 结尾
 
