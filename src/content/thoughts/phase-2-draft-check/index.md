@@ -2,7 +2,7 @@
 title: "验收草稿：此条不应公开"
 description: "检查 draft: true 的思考内容不会进入公开列表或生成详情页。"
 pubDate: 2026-09-29
-draft: true
+draft: false
 tags:
   - "验收示例"
 kind: "验收示例"

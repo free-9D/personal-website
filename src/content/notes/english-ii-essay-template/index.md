@@ -57,9 +57,9 @@ Only by doing... can we...
 
 ![动态数据图表](./assets/image1.png)
 
-**P1**: The bar/line chart above clearly shows (the change of) \_\_\_\_\_\_. It can be seen that the number of \_\_\_A\_\_\_ increased dramatically from \_\_\_ to \_\_\_, while that of \_\_\_ B \_\_\_ decreased significantly from \_\_\_ to \_\_\_. Meanwhile/On the contrary, there was a/an (obvious) decline/growth in that of \_\_\_C\_\_\_.
+**P1**: As we can see, the bar/line chart above clearly shows (the change of) \_\_\_\_\_\_ over the period from \_\_\_ to \_\_\_. It can be seen that the number of \_\_\_A\_\_\_ increased dramatically from \_\_\_ to \_\_\_, while that of \_\_\_ B \_\_\_ decreased significantly from \_\_\_ to \_\_\_. Meanwhile/On the contrary, there was a/an (obvious) decline/growth in that of \_\_\_C\_\_\_.
 
-**P2**: What are the reasons for the phenomenon? //
+**P2**: A number of factors are accountable for the notable changes. //
 
 What the statistics reflect is closely related to the following factors.
 
@@ -69,4 +69,4 @@ In addition,...
 
 Furthermore,...
 
-**P3**: From the analysis above, it can be concluded that the current trend (of.. )will continue to \_\_\_rise/decline\_\_\_ in years to come.(And...are expected to...)
+**P3**: Taking all above into consideration, we can draw the conclusion that the current trend (of.. )will continue to \_\_\_rise/decline\_\_\_ in years to come.(And...are expected to...)
